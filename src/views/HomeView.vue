@@ -1,4 +1,53 @@
-<script setup>
+<script>
+import { ref } from "vue";
+import axios from "axios";
+
+export default {
+  data() {
+
+    const NEW_ORDINE_OBJECT = ref({
+      customer_id: "",
+      indirizzo: "",
+      nomeCampanello: "",
+      orarioConsegna: "",
+      zona: "",
+      note: ""
+    });
+
+    return {
+      NEW_ORDINE_OBJECT
+    };
+  },
+  methods: {
+    onSubmit() {
+      
+      axios
+        .post(
+          "http://localhost:3000/ordine/newOrdine",
+          this.NEW_ORDINE_OBJECT,
+          {
+            headers: {
+              "Content-Type": "application/json", // Set content type to JSON
+              Accept: "*/*", // Specify the media type for the response
+            },
+          }
+        )
+        .then((res) => {
+          console.log('risposta ' + res.data)
+         
+          // Extract _id and name from the response
+          // const { _id, name } = res.data;
+          // this.newPersonId = _id;
+          // this.newPersonName = name;
+
+          setTimeout(this.refreshPage(), 5000);
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+        });
+    }
+  }
+}
 </script>
 
 <template>
@@ -26,17 +75,17 @@
       </tbody>
     </table>
 
-    <form action="">
+    <form v-on:submit="onSubmit()">
      
       <label for="zona">Zona</label>
-      <select name="zona" id="zona">
+      <select v-model="this.NEW_ORDINE_OBJECT.zona" name="zona" id="zona">
         <option value="1">GIAVENO</option>
         <option value="2">COAZZE</option>
         <option value="3">VALGIOIE</option>
         <option value="4">TRANA</option>
       </select>
       <label for="orario">Orario Consegna</label>
-      <select name="orario" id="orario">
+      <select v-model="this.NEW_ORDINE_OBJECT.orarioConsegna" name="orario" id="orario">
         <option value="19:00">19:00</option>
         <option value="19:00">19:15</option>
         <option value="19:00">19:30</option>
@@ -50,10 +99,12 @@
         <option value="19:00">21:30</option>
         <option value="19:00">21:45</option>
       </select>
+      <label for="nomeCampanello">Nome Campanello</label>
+      <input v-model="this.NEW_ORDINE_OBJECT.nomeCampanello" name="nomeCampanello" type="text">
       <label for="indirizzo">Indirizzo</label>
-      <input name="indirizzo" type="text">
+      <input v-model="this.NEW_ORDINE_OBJECT.indirizzo" name="indirizzo" type="text">
       <label for="note">Note</label>
-      <textarea name="note" id="note" cols="30" rows="10"></textarea>
+      <textarea v-model="this.NEW_ORDINE_OBJECT.note" name="note" id="note" cols="30" rows="10"></textarea>
       <button type="submit">DAJE</button>
     </form>
   </main>
