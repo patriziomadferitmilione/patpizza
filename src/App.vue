@@ -1,39 +1,20 @@
-<script setup>
-import { RouterLink, RouterView } from "vue-router";
+<script>
+import HomeView from "./views/HomeView.vue";
+
+export default {
+  components: {
+    HomeView,
+  }
+}
 </script>
 
 <template>
-  <header>
-    <nav>
-      <button><RouterLink to="/">Home</RouterLink></button>
-      <button><RouterLink to="/pizza">Pizza</RouterLink></button>
-    </nav>
-  </header>
 
-  <div class="content">
-    <RouterView />
-  </div>
+
+
+  <HomeView />
 </template>
 
 <style scoped>
-header {
-  float: left;
-  width: 15%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
-nav {
-  display: flex;
-  flex-direction: column;
-}
-
-.content {
-  float: right;
-  width: 85%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 </style>
