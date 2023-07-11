@@ -86,6 +86,7 @@ button {
 }
 
 #app {
+  background: url("https://raw.githubusercontent.com/patriziomadferitmilione/media/main/portfolio/background.png") center/cover fixed no-repeat;
   padding: 3rem;
   display: flex;
   justify-content: center;

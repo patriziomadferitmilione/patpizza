@@ -225,7 +225,7 @@ export default {
         cols="100"
         rows="5"
       ></textarea>
-      <button class="form_btn" @click="patchOrdine(this.OrdineID)">DAJE</button>
+      <button class="form_btn" @click="patchOrdine(this.OrdineID)">SCEGLI PIZZE</button>
   </div>
 
     <div class="pizza">
@@ -248,10 +248,12 @@ button {
   height: 70px;
   font-size: 3rem;
   font-weight: bold;
+  border-radius: 5px;
 }
 
 button:hover {
   cursor: pointer;
+  color: var(--link);
 }
 
 .form_btn {
@@ -259,6 +261,7 @@ button:hover {
   margin: 1rem 0;
   border-radius: 5px;
   border: none;
+  width: fit-content;
 }
 
 .form_btn:hover {
@@ -267,7 +270,6 @@ button:hover {
 
 .pizza {
   margin-top: 1rem;
-  border: 3px solid red;
   padding: 1rem;
   width: 100%;
 }
