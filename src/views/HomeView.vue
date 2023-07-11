@@ -40,7 +40,8 @@ export default {
 
       axios
         .post(
-          "http://localhost:3000/ordine/newOrdine",
+          // "http://localhost:3000/ordine/newOrdine",
+          "https://patpizza-be.onrender.com/ordine/newOrdine",
           this.NEW_ORDINE_OBJECT,
           {
             headers: {
