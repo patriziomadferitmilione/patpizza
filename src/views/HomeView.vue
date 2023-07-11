@@ -74,7 +74,8 @@ export default {
 
       axios
         .patch(
-          `http://localhost:3000/ordine/updateOrdine/${id}`,
+          // `http://localhost:3000/ordine/updateOrdine/${id}`,
+          `https://patpizza-be.onrender.com/ordine/updateOrdine/${id}`,
           patchObject,
           {
             headers: {

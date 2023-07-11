@@ -36,7 +36,8 @@ export default {
   methods: {
     getMenu() {
       axios
-        .get("http://localhost:3000/menu/getMenu", {
+        // .get("http://localhost:3000/menu/getMenu", {
+        .get("https://patpizza-be.onrender.com/menu/getMenu", {
           headers: {
             "Content-Type": "application/json", // Set content type to JSON
             Accept: "*/*", // Specify the media type for the response
@@ -60,7 +61,8 @@ export default {
 
       // Create pizza
       axios
-        .post("http://localhost:3000/pizza/newPizza", pizzaData, {
+        // .post("http://localhost:3000/pizza/newPizza", pizzaData, {
+        .post("https://patpizza-be.onrender.com/pizza/newPizza", pizzaData, {
           headers: {
             "Content-Type": "application/json", // Set content type to JSON
             Accept: "*/*", // Specify the media type for the response
@@ -80,7 +82,8 @@ export default {
       };
       axios
         .patch(
-          `http://localhost:3000/pizza/addAggiunte/${id_pizza}`,
+          // `http://localhost:3000/pizza/addAggiunte/${id_pizza}`,
+          `https://patpizza-be.onrender.com/pizza/addAggiunte/${id_pizza}`,
           patchObject,
           {
             headers: {
@@ -106,7 +109,8 @@ export default {
       };
       axios
         .patch(
-          `http://localhost:3000/pizza/addRimozioni/${id_pizza}`,
+          // `http://localhost:3000/pizza/addRimozioni/${id_pizza}`,
+          `https://patpizza-be.onrender.com/pizza/addRimozioni/${id_pizza}`,
           patchObject,
           {
             headers: {
@@ -128,7 +132,8 @@ export default {
     },
     getPizze(id) {
       axios
-        .get(`http://localhost:3000/pizza/getOrdinePizze/${id}`, {
+        // .get(`http://localhost:3000/pizza/getOrdinePizze/${id}`, {
+        .get(`https://patpizza-be.onrender.com/pizza/getOrdinePizze/${id}`, {
           headers: {
             "Content-Type": "application/json", // Set content type to JSON
             Accept: "*/*", // Specify the media type for the response
@@ -144,7 +149,8 @@ export default {
     },
     getIngredienti() {
       axios
-        .get("http://localhost:3000/ingrediente/getIngredienti", {
+        // .get("http://localhost:3000/ingrediente/getIngredienti", {
+        .get("https://patpizza-be.onrender.com/ingrediente/getIngredienti", {
           headers: {
             "Content-Type": "application/json", // Set content type to JSON
             Accept: "*/*", // Specify the media type for the response
@@ -161,7 +167,8 @@ export default {
     },
     getIngredientePROG(prog) {
       axios
-        .get(`http://localhost:3000/ingrediente/getIngredienteProg/${prog}`, {
+        // .get(`http://localhost:3000/ingrediente/getIngredienteProg/${prog}`, {
+        .get(`https://patpizza-be.onrender.com/ingrediente/getIngredienteProg/${prog}`, {
           headers: {
             "Content-Type": "application/json", // Set content type to JSON
             Accept: "*/*", // Specify the media type for the response
