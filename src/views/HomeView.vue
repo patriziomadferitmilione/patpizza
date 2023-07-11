@@ -23,6 +23,7 @@ export default {
       zona: "",
       note: "",
     });
+    const numeroCivico = ref('')
 
     const options = ref([]);
     const searchText = ref("");
@@ -40,7 +41,8 @@ export default {
       showForm,
       options,
       searchText,
-      selectedOption
+      selectedOption,
+      numeroCivico
     };
   },
   methods: {
@@ -75,7 +77,7 @@ export default {
     patchOrdine(id) {
       const patchObject = {
         zona: this.selectedOption,
-        indirizzo: this.NEW_ORDINE_OBJECT.indirizzo,
+        indirizzo: this.NEW_ORDINE_OBJECT.indirizzo + ' ' + this.numeroCivico,
         nomeCampanello: this.NEW_ORDINE_OBJECT.nomeCampanello,
         note: this.NEW_ORDINE_OBJECT.note,
       };
@@ -181,7 +183,14 @@ export default {
         <option value="4">TRANA</option>
         <option value="5">AVIGLIANA</option>
       </select>
-      <pre>{{ this.options }}</pre>
+      <!-- <pre>{{ this.options }}</pre> -->
+      <label for="numeroCivico">Numero Civico</label>
+      <input
+        v-model="this.numeroCivico"
+        name="numeroCivico"
+        id="numeroCivico"
+        type="text"
+      />
       <label for="nomeCampanello">Nome Campanello</label>
       <input
         v-model="this.NEW_ORDINE_OBJECT.nomeCampanello"
