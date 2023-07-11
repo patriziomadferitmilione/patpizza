@@ -20,6 +20,7 @@ export default {
       indirizzo: "",
       nomeCampanello: "",
       orarioConsegna: "",
+      metodoPagamento: "",
       zona: "",
       note: "",
     });
@@ -79,6 +80,7 @@ export default {
         zona: this.selectedOption,
         indirizzo: this.NEW_ORDINE_OBJECT.indirizzo + ' ' + this.numeroCivico,
         nomeCampanello: this.NEW_ORDINE_OBJECT.nomeCampanello,
+        metodoPagamento: this.NEW_ORDINE_OBJECT.metodoPagamento,
         note: this.NEW_ORDINE_OBJECT.note,
       };
 
@@ -208,6 +210,12 @@ export default {
         >
           {{ option.nome }}
         </option>
+      </select>
+      <label for="metodoPagamento">Metodo Pagamento</label>
+      <select v-model="this.NEW_ORDINE_OBJECT.metodoPagamento" name="metodoPagamento" id="metodoPagamento">
+        <option value="CONTANTI">CONTANTI</option>
+        <option value="POS-BANCOMAT">POS-BANCOMAT</option>
+        <option value="SATISPAY">SATISPAY</option>
       </select>
       <label for="note">Note</label>
       <textarea
