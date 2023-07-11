@@ -148,16 +148,6 @@ export default {
 
 <template>
   <main>
-    <!-- <div>
-      <input type="text" v-model="searchText" placeholder="Search...">
-      <select>
-        <option v-for="option in filteredOptions" :key="option.value" :value="option.value">
-          {{ option.label }}
-        </option>
-      </select>
-    </div> -->
-
-    <div></div>
 
     <table v-if="this.showOrari === true">
       <tbody>
@@ -192,25 +182,6 @@ export default {
         <option value="5">AVIGLIANA</option>
       </select>
       <pre>{{ this.options }}</pre>
-      <!-- <label for="orario">Orario Consegna</label>
-      <select
-        v-model="this.NEW_ORDINE_OBJECT.orarioConsegna"
-        name="orario"
-        id="orario"
-      >
-        <option value="19:00">19:00</option>
-        <option value="19:00">19:15</option>
-        <option value="19:00">19:30</option>
-        <option value="19:00">19:45</option>
-        <option value="19:00">20:00</option>
-        <option value="19:00">20:15</option>
-        <option value="19:00">20:30</option>
-        <option value="19:00">20:45</option>
-        <option value="19:00">21:00</option>
-        <option value="19:00">21:15</option>
-        <option value="19:00">21:30</option>
-        <option value="19:00">21:45</option>
-      </select> -->
       <label for="nomeCampanello">Nome Campanello</label>
       <input
         v-model="this.NEW_ORDINE_OBJECT.nomeCampanello"
@@ -218,13 +189,6 @@ export default {
         id="nomeCampanello"
         type="text"
       />
-      <!-- <label for="indirizzo">Indirizzo</label>
-      <input
-        v-model="this.NEW_ORDINE_OBJECT.indirizzo"
-        name="indirizzo"
-        id="indirizzo"
-        type="text"
-      /> -->
       <label for="indirizzo">Indirizzo</label>
       <input type="text" v-model="searchText" placeholder="Search..." />
       <select v-model="this.NEW_ORDINE_OBJECT.indirizzo" id="indirizzo" name="indirizzo">
