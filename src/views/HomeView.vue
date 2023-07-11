@@ -62,7 +62,7 @@ export default {
           console.log(error);
         });
     },
-    patchOrdine() {
+    patchOrdine(id) {
 
       const patchObject = {
         "zona": this.NEW_ORDINE_OBJECT.zona,
@@ -73,7 +73,7 @@ export default {
 
       axios
         .patch(
-          `http://localhost:3000/ordine/updateOrdine/${this.OrdineID}`,
+          `http://localhost:3000/ordine/updateOrdine/${id}`,
           patchObject,
           {
             headers: {
@@ -120,7 +120,7 @@ export default {
       </tbody>
     </table>
 
-    <form @submit.prevent="newOrdine" v-if="this.showForm === true">
+    <form @submit.prevent="newOrdine('0')" v-if="this.showForm === true">
       <label for="zona">Zona</label>
       <select v-model="this.NEW_ORDINE_OBJECT.zona" name="zona" id="zona">
         <option value="1">GIAVENO</option>
@@ -169,7 +169,7 @@ export default {
         cols="30"
         rows="10"
       ></textarea>
-      <button @click="patchOrdine()">DAJE</button>
+      <button @click="patchOrdine(this.OrdineID)">DAJE</button>
     </form>
 
     <div class="pizza">

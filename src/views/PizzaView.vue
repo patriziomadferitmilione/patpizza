@@ -181,6 +181,9 @@ export default {
       this.showMenu = false;
       this.showIngredienti = true;
     },
+    refresh() {
+      location.reload()
+    }
   },
   mounted() {
     this.getMenu();
@@ -198,7 +201,6 @@ export default {
             <th>Nome</th>
             <th>Aggiunte</th>
             <th>Rimozioni</th>
-            <th>Note</th>
           </tr>
         </thead>
         <tbody>
@@ -211,9 +213,6 @@ export default {
             </td>
             <td>
               {{ pizza.rimozioni }}
-            </td>
-            <td>
-              {{ pizza.note }}
             </td>
           </tr>
         </tbody>
@@ -243,6 +242,7 @@ export default {
         </button>
       </div>
     </div>
+    <button @click="refresh()">CONFERMA ORDINE</button>
   </main>
 </template>
 
