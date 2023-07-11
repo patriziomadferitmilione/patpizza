@@ -186,13 +186,6 @@ export default {
         <option value="5">AVIGLIANA</option>
       </select>
       <!-- <pre>{{ this.options }}</pre> -->
-      <label for="numeroCivico">Numero Civico</label>
-      <input
-        v-model="this.numeroCivico"
-        name="numeroCivico"
-        id="numeroCivico"
-        type="text"
-      />
       <label for="nomeCampanello">Nome Campanello</label>
       <input
         v-model="this.NEW_ORDINE_OBJECT.nomeCampanello"
@@ -211,6 +204,13 @@ export default {
           {{ option.nome }}
         </option>
       </select>
+      <label for="numeroCivico">Numero Civico</label>
+      <input
+        v-model="this.numeroCivico"
+        name="numeroCivico"
+        id="numeroCivico"
+        type="text"
+      />
       <label for="metodoPagamento">Metodo Pagamento</label>
       <select v-model="this.NEW_ORDINE_OBJECT.metodoPagamento" name="metodoPagamento" id="metodoPagamento">
         <option value="CONTANTI">CONTANTI</option>
