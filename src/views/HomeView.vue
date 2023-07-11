@@ -29,7 +29,7 @@ export default {
     const selectedOption = ref('');
 
     watch(selectedOption, (newOption) => {
-      loadJsonData(newOption);
+      this.loadJsonData(newOption);
     });
 
     return {
@@ -74,7 +74,7 @@ export default {
     },
     patchOrdine(id) {
       const patchObject = {
-        zona: this.NEW_ORDINE_OBJECT.zona,
+        zona: this.selectedOption,
         indirizzo: this.NEW_ORDINE_OBJECT.indirizzo,
         nomeCampanello: this.NEW_ORDINE_OBJECT.nomeCampanello,
         note: this.NEW_ORDINE_OBJECT.note,
@@ -117,10 +117,13 @@ export default {
           case '4':
             jsonFile = '/trana.json';
             break;
+          case '5':
+            jsonFile = '/avigliana.json';
+            break;
         }
 
         const response = await fetch(jsonFile);
-        jsonData.value = await response.json();
+        this.options = await response.json();
       } catch (error) {
         console.error('Error loading JSON data:', error);
       }
@@ -181,12 +184,14 @@ export default {
 
       <div class="form" v-if="this.showForm === true">
       <label for="zona">Zona</label>
-      <select v-model="this.NEW_ORDINE_OBJECT.zona" name="zona" id="zona">
+      <select v-model="this.selectedOption" name="zona" id="zona">
         <option value="1">GIAVENO</option>
         <option value="2">COAZZE</option>
         <option value="3">VALGIOIE</option>
         <option value="4">TRANA</option>
+        <option value="5">AVIGLIANA</option>
       </select>
+      <pre>{{ this.options }}</pre>
       <!-- <label for="orario">Orario Consegna</label>
       <select
         v-model="this.NEW_ORDINE_OBJECT.orarioConsegna"
