@@ -194,7 +194,7 @@ export default {
         type="text"
       />
       <label for="indirizzo">Indirizzo</label>
-      <input type="text" v-model="searchText" placeholder="Search..." />
+      <input type="text" v-model="searchText" placeholder="Cerca..." />
       <select v-model="this.NEW_ORDINE_OBJECT.indirizzo" id="indirizzo" name="indirizzo">
         <option
           v-for="(option, index) in filteredOptions"
@@ -222,10 +222,10 @@ export default {
         v-model="this.NEW_ORDINE_OBJECT.note"
         name="note"
         id="note"
-        cols="30"
-        rows="10"
+        cols="100"
+        rows="5"
       ></textarea>
-      <button @click="patchOrdine(this.OrdineID)">DAJE</button>
+      <button class="form_btn" @click="patchOrdine(this.OrdineID)">DAJE</button>
   </div>
 
     <div class="pizza">
@@ -244,12 +244,25 @@ main,
 }
 
 button {
-  width: 100px;
-  height: 40px;
+  width: 200px;
+  height: 70px;
+  font-size: 3rem;
+  font-weight: bold;
 }
 
 button:hover {
   cursor: pointer;
+}
+
+.form_btn {
+  background-color: var(--link);
+  margin: 1rem 0;
+  border-radius: 5px;
+  border: none;
+}
+
+.form_btn:hover {
+  background-color: var(--link_light);
 }
 
 .pizza {

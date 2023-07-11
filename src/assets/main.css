@@ -1,9 +1,96 @@
 @import './base.css';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-#app {
-  padding: 2rem;
+:root {
+  /* ORIGINAL */
+  --shadow: #13242a;
+  --link: #fb8c00;
+  --link_light: #833500;
+  --link_hover: #46849b;
+  --border: #396c7f;
+  --green: #519325;
+  --blue: #214bca;
+  --light_green: #63B42D;
+  --brown: #5e3b00;
+  --white: #F0F1FA;
+  --red: #D32222;
+  --input_background: rgb(24, 48, 57);
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+html {
+  background-color: var(--white  );
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+html::-webkit-scrollbar {
+  display: none;
+}
+*::-webkit-scrollbar {
+  display: none;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='mobile'],
+input[type='date'],
+input[type='number'],
+input[type='file'],
+select,
+textarea {
+  padding: 10px;
+  border: 2px solid var(--link_light);
+  /* box-shadow: 0px 0px 10px 0px var(--link); */
+  border-radius: 5px;
+  width: 80%;
+  background-color: var(--white);
+  text-align: center;
+}
+
+input::placeholder {
+  font-weight: bold;
+  opacity: 0.5;
+  color: var(--link_light);
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  cursor: pointer;
+  color: var(--link_hover);
+}
+
+label, option {
+  color: var(--link_light);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+button {
+  color: var(--link_light);
   display: flex;
   justify-content: center;
   align-items: center;
+  /* box-shadow: 0px 0px 10px 0px var(--link); */
 }
 
+#app {
+  padding: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--white);
+  min-height: 100vh;
+  min-width: 100vw;
+}

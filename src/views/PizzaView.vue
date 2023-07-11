@@ -19,6 +19,7 @@ export default {
     const showMenu = ref(true);
     const showPizze = ref(true);
     const showIngredienti = ref(false);
+    const showOrdine = ref(false);
 
     return {
       pizze,
@@ -31,6 +32,7 @@ export default {
       rimozioni,
       ingrediente_modificato,
       pizzaID,
+      showOrdine,
     };
   },
   methods: {
@@ -75,6 +77,8 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+
+      this.showOrdine = true;
     },
     addAggiunte(id_pizza, prog_ingrediente) {
       let patchObject = {
@@ -204,7 +208,7 @@ export default {
 
 <template>
   <main>
-    <div class="ordineContainer">
+    <div class="ordineContainer" v-if="this.showOrdine === true">
       <table>
         <thead>
           <tr>
@@ -244,6 +248,8 @@ export default {
         :key="ingrediente._id"
       >
         <span> {{ ingrediente.nome }} </span>
+
+        <div class="topping_btn">
         <button @click="addAggiunte(this.pizzaID, ingrediente.progressivo)">
           +
         </button>
@@ -251,24 +257,83 @@ export default {
           -
         </button>
       </div>
+      </div>
+      
     </div>
-    <button @click="refresh()">CONFERMA ORDINE</button>
+    <button class="btn" @click="refresh()">CONFERMA ORDINE</button>
   </main>
 </template>
 
 <style scoped>
 main {
+  padding: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
 }
 
+table {
+  padding: 10px;
+  border: 2px solid var(--link_light);
+  /* box-shadow: 0px 0px 10px 0px var(--link); */
+  border-radius: 5px;
+  background-color: var(--white);
+  text-align: center;
+  font-size: 2rem;
+}
+
+th {
+  border-bottom: 3px solid var(--link_light);
+}
+
 .menuContainer,
 .ingredientiContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
+}
+
+.ingrediente {
+  display: flex;
+  flex-direction: row;
+  width: 250px;
+  height: 100px;
+  margin: 0.3rem 0;
+  padding: 0.5rem;
+  border: 3px solid var(--link_light);
+  border-radius: 5px;
+}
+
+.ingrediente span {
+  min-width: 80%;
+  font-size: 1.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.topping_btn {
+  display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: .2rem;
+}
+
+.topping_btn button {
+  height: 30px;
+  width: 30px;
+}
+
+.btn {
+  background-color: var(--link);
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 5px;
+  border: none;
+  font-weight: bold;
+  font-size: 1.5rem;
 }
 </style>
