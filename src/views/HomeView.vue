@@ -9,12 +9,11 @@ export default {
     PizzaView,
   },
   data() {
+    const OrdineID = ref("");
 
-    const OrdineID = ref('')
-
-    const showPizzaView = ref(false)
-    const showOrari = ref(true)
-    const showForm = ref(false)
+    const showPizzaView = ref(false);
+    const showOrari = ref(true);
+    const showForm = ref(false);
 
     const NEW_ORDINE_OBJECT = ref({
       customer_id: "",
@@ -25,18 +24,22 @@ export default {
       note: "",
     });
 
+    const options = ref([]);
+    const searchText = ref("");
+
     return {
       NEW_ORDINE_OBJECT,
       OrdineID,
       showPizzaView,
       showOrari,
-      showForm
+      showForm,
+      options,
+      searchText,
     };
   },
   methods: {
     newOrdine(time) {
-
-      this.NEW_ORDINE_OBJECT.orarioConsegna = time
+      this.NEW_ORDINE_OBJECT.orarioConsegna = time;
 
       axios
         .post(
@@ -53,24 +56,23 @@ export default {
         .then((res) => {
           // console.log("risposta " + res.data);
 
-          this.OrdineID = res.data._id
+          this.OrdineID = res.data._id;
           // console.log(this.OrdineID)
 
-          this.showForm = true
-          this.showOrari = false
+          this.showForm = true;
+          this.showOrari = false;
         })
         .catch((error) => {
           console.log(error);
         });
     },
     patchOrdine(id) {
-
       const patchObject = {
-        "zona": this.NEW_ORDINE_OBJECT.zona,
-        "indirizzo": this.NEW_ORDINE_OBJECT.indirizzo,
-        "nomeCampanello": this.NEW_ORDINE_OBJECT.nomeCampanello,
-        "note": this.NEW_ORDINE_OBJECT.note
-      }
+        zona: this.NEW_ORDINE_OBJECT.zona,
+        indirizzo: this.NEW_ORDINE_OBJECT.indirizzo,
+        nomeCampanello: this.NEW_ORDINE_OBJECT.nomeCampanello,
+        note: this.NEW_ORDINE_OBJECT.note,
+      };
 
       axios
         .patch(
@@ -86,12 +88,31 @@ export default {
         )
         .then((response) => {
           console.log(response.data);
-          this.showForm = false
-          this.showPizzaView = true
+          this.showForm = false;
+          this.showPizzaView = true;
         })
         .catch((error) => {
           console.log(error);
         });
+    },
+  },
+  computed: {
+    filteredOptions() {
+      if (this.searchText === "") {
+        return this.options;
+      } else {
+        return this.options.filter((option) =>
+          option.nome.toLowerCase().includes(this.searchText.toLowerCase())
+        );
+      }
+    },
+  },
+  async mounted() {
+    try {
+      const response = await fetch("../src/assets/giaveno.json");
+      this.options = await response.json();
+    } catch (error) {
+      console.error("Error loading options:", error);
     }
   },
 };
@@ -99,6 +120,17 @@ export default {
 
 <template>
   <main>
+    <!-- <div>
+      <input type="text" v-model="searchText" placeholder="Search...">
+      <select>
+        <option v-for="option in filteredOptions" :key="option.value" :value="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div> -->
+
+    <div></div>
+
     <table v-if="this.showOrari === true">
       <tbody>
         <tr>
@@ -122,7 +154,7 @@ export default {
       </tbody>
     </table>
 
-    <form @submit.prevent="newOrdine('0')" v-if="this.showForm === true">
+      <div class="form" v-if="this.showForm === true">
       <label for="zona">Zona</label>
       <select v-model="this.NEW_ORDINE_OBJECT.zona" name="zona" id="zona">
         <option value="1">GIAVENO</option>
@@ -156,13 +188,24 @@ export default {
         id="nomeCampanello"
         type="text"
       />
-      <label for="indirizzo">Indirizzo</label>
+      <!-- <label for="indirizzo">Indirizzo</label>
       <input
         v-model="this.NEW_ORDINE_OBJECT.indirizzo"
         name="indirizzo"
         id="indirizzo"
         type="text"
-      />
+      /> -->
+      <label for="indirizzo">Indirizzo</label>
+      <input type="text" v-model="searchText" placeholder="Search..." />
+      <select v-model="this.NEW_ORDINE_OBJECT.indirizzo" id="indirizzo" name="indirizzo">
+        <option
+          v-for="(option, index) in filteredOptions"
+          :key="index"
+          :value="option.nome"
+        >
+          {{ option.nome }}
+        </option>
+      </select>
       <label for="note">Note</label>
       <textarea
         v-model="this.NEW_ORDINE_OBJECT.note"
@@ -172,7 +215,7 @@ export default {
         rows="10"
       ></textarea>
       <button @click="patchOrdine(this.OrdineID)">DAJE</button>
-    </form>
+  </div>
 
     <div class="pizza">
       <PizzaView v-if="this.showPizzaView === true" :OrdineID="this.OrdineID" />
@@ -182,7 +225,7 @@ export default {
 
 <style scoped>
 main,
-form {
+.form {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -204,5 +247,4 @@ button:hover {
   padding: 1rem;
   width: 100%;
 }
-
 </style>

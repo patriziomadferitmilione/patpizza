@@ -168,12 +168,15 @@ export default {
     getIngredientePROG(prog) {
       axios
         // .get(`http://localhost:3000/ingrediente/getIngredienteProg/${prog}`, {
-        .get(`https://patpizza-be.onrender.com/ingrediente/getIngredienteProg/${prog}`, {
-          headers: {
-            "Content-Type": "application/json", // Set content type to JSON
-            Accept: "*/*", // Specify the media type for the response
-          },
-        })
+        .get(
+          `https://patpizza-be.onrender.com/ingrediente/getIngredienteProg/${prog}`,
+          {
+            headers: {
+              "Content-Type": "application/json", // Set content type to JSON
+              Accept: "*/*", // Specify the media type for the response
+            },
+          }
+        )
         .then((response) => {
           // console.log(response.data);
           // console.log('risposta ' + response.data)
@@ -189,8 +192,8 @@ export default {
       this.showIngredienti = true;
     },
     refresh() {
-      location.reload()
-    }
+      location.reload();
+    },
   },
   mounted() {
     this.getMenu();
