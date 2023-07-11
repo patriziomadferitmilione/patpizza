@@ -109,7 +109,7 @@ export default {
   },
   async mounted() {
     try {
-      const response = await fetch("../src/assets/giaveno.json");
+      const response = await fetch("/giaveno.json");
       this.options = await response.json();
     } catch (error) {
       console.error("Error loading options:", error);
