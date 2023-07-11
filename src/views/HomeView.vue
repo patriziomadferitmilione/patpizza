@@ -1,5 +1,5 @@
 <script>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import axios from "axios";
 
 import PizzaView from "./PizzaView.vue";
@@ -26,6 +26,11 @@ export default {
 
     const options = ref([]);
     const searchText = ref("");
+    const selectedOption = ref('');
+
+    watch(selectedOption, (newOption) => {
+      loadJsonData(newOption);
+    });
 
     return {
       NEW_ORDINE_OBJECT,
@@ -35,6 +40,7 @@ export default {
       showForm,
       options,
       searchText,
+      selectedOption
     };
   },
   methods: {
@@ -95,6 +101,30 @@ export default {
           console.log(error);
         });
     },
+    async loadJsonData(option) {
+      try {
+        let jsonFile = '';
+        switch (option) {
+          case '1':
+            jsonFile = '/giaveno.json';
+            break;
+          case '2':
+            jsonFile = '/coazze.json';
+            break;
+          case '3':
+            jsonFile = '/valgioie.json';
+            break;
+          case '4':
+            jsonFile = '/trana.json';
+            break;
+        }
+
+        const response = await fetch(jsonFile);
+        jsonData.value = await response.json();
+      } catch (error) {
+        console.error('Error loading JSON data:', error);
+      }
+    }
   },
   computed: {
     filteredOptions() {
@@ -107,13 +137,8 @@ export default {
       }
     },
   },
-  async mounted() {
-    try {
-      const response = await fetch("/giaveno.json");
-      this.options = await response.json();
-    } catch (error) {
-      console.error("Error loading options:", error);
-    }
+  mounted() {
+
   },
 };
 </script>
