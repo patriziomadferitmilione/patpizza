@@ -287,7 +287,6 @@ th {
   border-bottom: 3px solid var(--link_light);
 }
 
-.menuContainer,
 .ingredientiContainer {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -336,4 +335,24 @@ th {
   font-weight: bold;
   font-size: 1.5rem;
 }
+
+.menuContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
+}
+.menuContainer button {
+  width: 250px;
+  height: 50px;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.menuContainer button:hover {
+  cursor: pointer;
+  color: var(--link);
+}
+
 </style>
