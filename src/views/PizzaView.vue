@@ -198,6 +198,9 @@ export default {
     refresh() {
       location.reload();
     },
+    more() {
+      this.showMenu = true
+    }
   },
   mounted() {
     this.getMenu();
@@ -260,6 +263,7 @@ export default {
       </div>
       
     </div>
+    <button class="btn" @click="more()">AGGIUNGI</button>
     <button class="btn" @click="refresh()">CONFERMA ORDINE</button>
   </main>
 </template>
@@ -334,6 +338,11 @@ th {
   border: none;
   font-weight: bold;
   font-size: 1.5rem;
+}
+
+.btn:hover {
+  cursor: pointer;
+  color: var(--white);
 }
 
 .menuContainer {

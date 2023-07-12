@@ -3,10 +3,12 @@ import { ref, watch } from "vue";
 import axios from "axios";
 
 import PizzaView from "./PizzaView.vue";
+import DashboardView from "./DashboardView.vue";
 
 export default {
   components: {
     PizzaView,
+    DashboardView
   },
   data() {
     const OrdineID = ref("");
@@ -152,7 +154,15 @@ export default {
 
 <template>
   <main>
-
+    <div class="dashboard">
+      <h1 class="title">
+        PROSSIMI ORDINI 
+      </h1>
+      <DashboardView />
+    </div>
+    <h1 class="title" v-if="this.showOrari === true">
+      SCEGLI ORARIO CONSEGNA
+    </h1>
     <table v-if="this.showOrari === true">
       <tbody>
         <tr>
@@ -272,5 +282,21 @@ button:hover {
   margin-top: 1rem;
   padding: 1rem;
   width: 100%;
+}
+
+.dashboard {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  width: 100%;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: bold;
+  background-color: var(--link);
+  padding: .5rem;
+  border-radius: 5px;
+  margin: 1rem 0;
+  text-align: center;
 }
 </style>
