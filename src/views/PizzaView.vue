@@ -148,17 +148,20 @@ export default {
     },
     getIngredientiPopolari() {
       axios
-        .get("https://patpizza-be.onrender.com/ingrediente/getIngredienti/popolari", {
-          headers: {
-            "Content-Type": "application/json", // Set content type to JSON
-            Accept: "*/*", // Specify the media type for the response
-          },
-        })
+        .get(
+          "https://patpizza-be.onrender.com/ingrediente/getIngredienti/popolari",
+          {
+            headers: {
+              "Content-Type": "application/json", // Set content type to JSON
+              Accept: "*/*", // Specify the media type for the response
+            },
+          }
+        )
         .then((response) => {
           // console.log(response.data);
           this.ingredienti = response.data;
           // console.log("risposta " + response.data);
-          this.getIngredientiCarne()
+          this.getIngredientiCarne();
         })
         .catch((error) => {
           console.log(error);
@@ -166,17 +169,22 @@ export default {
     },
     getIngredientiCarne() {
       axios
-        .get("https://patpizza-be.onrender.com/ingrediente/getIngredienti/carne", {
-          headers: {
-            "Content-Type": "application/json", // Set content type to JSON
-            Accept: "*/*", // Specify the media type for the response
-          },
-        })
+        .get(
+          "https://patpizza-be.onrender.com/ingrediente/getIngredienti/carne",
+          {
+            headers: {
+              "Content-Type": "application/json", // Set content type to JSON
+              Accept: "*/*", // Specify the media type for the response
+            },
+          }
+        )
         .then((response) => {
           // console.log(response.data);
-          this.ingredienti = response.data;
+          const newData = response.data;
+          this.ingredienti = [...this.ingredienti, ...newData];
+
           // console.log("risposta " + response.data);
-          this.getIngredientiFormaggi()
+          this.getIngredientiFormaggi();
         })
         .catch((error) => {
           console.log(error);
@@ -184,17 +192,22 @@ export default {
     },
     getIngredientiFormaggi() {
       axios
-        .get("https://patpizza-be.onrender.com/ingrediente/getIngredienti/formaggi", {
-          headers: {
-            "Content-Type": "application/json", // Set content type to JSON
-            Accept: "*/*", // Specify the media type for the response
-          },
-        })
+        .get(
+          "https://patpizza-be.onrender.com/ingrediente/getIngredienti/formaggi",
+          {
+            headers: {
+              "Content-Type": "application/json", // Set content type to JSON
+              Accept: "*/*", // Specify the media type for the response
+            },
+          }
+        )
         .then((response) => {
           // console.log(response.data);
-          this.ingredienti = response.data;
+          const newData = response.data;
+          this.ingredienti = [...this.ingredienti, ...newData];
+
           // console.log("risposta " + response.data);
-          this.getIngredientiVerdura()
+          this.getIngredientiVerdura();
         })
         .catch((error) => {
           console.log(error);
@@ -202,17 +215,22 @@ export default {
     },
     getIngredientiVerdura() {
       axios
-        .get("https://patpizza-be.onrender.com/ingrediente/getIngredienti/verdura", {
-          headers: {
-            "Content-Type": "application/json", // Set content type to JSON
-            Accept: "*/*", // Specify the media type for the response
-          },
-        })
+        .get(
+          "https://patpizza-be.onrender.com/ingrediente/getIngredienti/verdura",
+          {
+            headers: {
+              "Content-Type": "application/json", // Set content type to JSON
+              Accept: "*/*", // Specify the media type for the response
+            },
+          }
+        )
         .then((response) => {
           // console.log(response.data);
-          this.ingredienti = response.data;
+          const newData = response.data;
+          this.ingredienti = [...this.ingredienti, ...newData];
+
           // console.log("risposta " + response.data);
-          this.getIngredientiCreme()
+          this.getIngredientiCreme();
         })
         .catch((error) => {
           console.log(error);
@@ -220,17 +238,22 @@ export default {
     },
     getIngredientiCreme() {
       axios
-        .get("https://patpizza-be.onrender.com/ingrediente/getIngredienti/creme", {
-          headers: {
-            "Content-Type": "application/json", // Set content type to JSON
-            Accept: "*/*", // Specify the media type for the response
-          },
-        })
+        .get(
+          "https://patpizza-be.onrender.com/ingrediente/getIngredienti/creme",
+          {
+            headers: {
+              "Content-Type": "application/json", // Set content type to JSON
+              Accept: "*/*", // Specify the media type for the response
+            },
+          }
+        )
         .then((response) => {
           // console.log(response.data);
-          this.ingredienti = response.data;
+          const newData = response.data;
+          this.ingredienti = [...this.ingredienti, ...newData];
+
           // console.log("risposta " + response.data);
-          this.getIngredientiVari()
+          this.getIngredientiVari();
         })
         .catch((error) => {
           console.log(error);
@@ -238,15 +261,20 @@ export default {
     },
     getIngredientiVari() {
       axios
-        .get("https://patpizza-be.onrender.com/ingrediente/getIngredienti/vari", {
-          headers: {
-            "Content-Type": "application/json", // Set content type to JSON
-            Accept: "*/*", // Specify the media type for the response
-          },
-        })
+        .get(
+          "https://patpizza-be.onrender.com/ingrediente/getIngredienti/vari",
+          {
+            headers: {
+              "Content-Type": "application/json", // Set content type to JSON
+              Accept: "*/*", // Specify the media type for the response
+            },
+          }
+        )
         .then((response) => {
           // console.log(response.data);
-          this.ingredienti = response.data;
+          const newData = response.data;
+          this.ingredienti = [...this.ingredienti, ...newData];
+
           // console.log("risposta " + response.data);
         })
         .catch((error) => {
@@ -287,7 +315,7 @@ export default {
   },
   mounted() {
     this.getMenu();
-    this.getIngredientiPopolari();
+    // this.getIngredientiPopolari();
   },
 };
 </script>
@@ -326,7 +354,16 @@ export default {
       <button
         v-for="menuItem in menu"
         :key="menuItem._id"
-        @click="newPizza(this.OrdineID, menuItem.nome), showToppings()"
+        @click="
+          newPizza(this.OrdineID, menuItem.nome),
+            showToppings(),
+            getIngredientiPopolari(),
+            getIngredientiCarne(),
+            getIngredientiFormaggi(),
+            getIngredientiVerdura(),
+            getIngredientiCreme(),
+            getIngredientiVari()
+        "
       >
         {{ menuItem.nome }}
       </button>
