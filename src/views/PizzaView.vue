@@ -1,5 +1,5 @@
 <script>
-import { ref } from "vue";
+import { ref, setTransitionHooks } from "vue";
 import axios from "axios";
 
 export default {
@@ -38,7 +38,6 @@ export default {
   methods: {
     getMenu() {
       axios
-        // .get("http://localhost:3000/menu/getMenu", {
         .get("https://patpizza-be.onrender.com/menu/getMenu", {
           headers: {
             "Content-Type": "application/json", // Set content type to JSON
@@ -63,7 +62,6 @@ export default {
 
       // Create pizza
       axios
-        // .post("http://localhost:3000/pizza/newPizza", pizzaData, {
         .post("https://patpizza-be.onrender.com/pizza/newPizza", pizzaData, {
           headers: {
             "Content-Type": "application/json", // Set content type to JSON
@@ -86,7 +84,6 @@ export default {
       };
       axios
         .patch(
-          // `http://localhost:3000/pizza/addAggiunte/${id_pizza}`,
           `https://patpizza-be.onrender.com/pizza/addAggiunte/${id_pizza}`,
           patchObject,
           {
@@ -113,7 +110,6 @@ export default {
       };
       axios
         .patch(
-          // `http://localhost:3000/pizza/addRimozioni/${id_pizza}`,
           `https://patpizza-be.onrender.com/pizza/addRimozioni/${id_pizza}`,
           patchObject,
           {
@@ -136,7 +132,6 @@ export default {
     },
     getPizze(id) {
       axios
-        // .get(`http://localhost:3000/pizza/getOrdinePizze/${id}`, {
         .get(`https://patpizza-be.onrender.com/pizza/getOrdinePizze/${id}`, {
           headers: {
             "Content-Type": "application/json", // Set content type to JSON
@@ -151,10 +146,9 @@ export default {
           console.log(error);
         });
     },
-    getIngredienti() {
+    getIngredientiPopolari() {
       axios
-        // .get("http://localhost:3000/ingrediente/getIngredienti", {
-        .get("https://patpizza-be.onrender.com/ingrediente/getIngredienti", {
+        .get("https://patpizza-be.onrender.com/ingrediente/getIngredienti/popolari", {
           headers: {
             "Content-Type": "application/json", // Set content type to JSON
             Accept: "*/*", // Specify the media type for the response
@@ -163,7 +157,97 @@ export default {
         .then((response) => {
           // console.log(response.data);
           this.ingredienti = response.data;
-          console.log("risposta " + response.data);
+          // console.log("risposta " + response.data);
+          this.getIngredientiCarne()
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getIngredientiCarne() {
+      axios
+        .get("https://patpizza-be.onrender.com/ingrediente/getIngredienti/carne", {
+          headers: {
+            "Content-Type": "application/json", // Set content type to JSON
+            Accept: "*/*", // Specify the media type for the response
+          },
+        })
+        .then((response) => {
+          // console.log(response.data);
+          this.ingredienti = response.data;
+          // console.log("risposta " + response.data);
+          this.getIngredientiFormaggi()
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getIngredientiFormaggi() {
+      axios
+        .get("https://patpizza-be.onrender.com/ingrediente/getIngredienti/formaggi", {
+          headers: {
+            "Content-Type": "application/json", // Set content type to JSON
+            Accept: "*/*", // Specify the media type for the response
+          },
+        })
+        .then((response) => {
+          // console.log(response.data);
+          this.ingredienti = response.data;
+          // console.log("risposta " + response.data);
+          this.getIngredientiVerdura()
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getIngredientiVerdura() {
+      axios
+        .get("https://patpizza-be.onrender.com/ingrediente/getIngredienti/verdura", {
+          headers: {
+            "Content-Type": "application/json", // Set content type to JSON
+            Accept: "*/*", // Specify the media type for the response
+          },
+        })
+        .then((response) => {
+          // console.log(response.data);
+          this.ingredienti = response.data;
+          // console.log("risposta " + response.data);
+          this.getIngredientiCreme()
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getIngredientiCreme() {
+      axios
+        .get("https://patpizza-be.onrender.com/ingrediente/getIngredienti/creme", {
+          headers: {
+            "Content-Type": "application/json", // Set content type to JSON
+            Accept: "*/*", // Specify the media type for the response
+          },
+        })
+        .then((response) => {
+          // console.log(response.data);
+          this.ingredienti = response.data;
+          // console.log("risposta " + response.data);
+          this.getIngredientiVari()
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getIngredientiVari() {
+      axios
+        .get("https://patpizza-be.onrender.com/ingrediente/getIngredienti/vari", {
+          headers: {
+            "Content-Type": "application/json", // Set content type to JSON
+            Accept: "*/*", // Specify the media type for the response
+          },
+        })
+        .then((response) => {
+          // console.log(response.data);
+          this.ingredienti = response.data;
+          // console.log("risposta " + response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -171,7 +255,6 @@ export default {
     },
     getIngredientePROG(prog) {
       axios
-        // .get(`http://localhost:3000/ingrediente/getIngredienteProg/${prog}`, {
         .get(
           `https://patpizza-be.onrender.com/ingrediente/getIngredienteProg/${prog}`,
           {
@@ -199,18 +282,22 @@ export default {
       location.reload();
     },
     more() {
-      this.showMenu = true
-    }
+      this.showMenu = true;
+    },
   },
   mounted() {
     this.getMenu();
-    this.getIngredienti();
+    this.getIngredientiPopolari();
   },
 };
 </script>
 
 <template>
   <main>
+    <button class="btn" @click="more()" v-if="this.showOrdine === true">
+      AGGIUNGI
+    </button>
+
     <div class="ordineContainer" v-if="this.showOrdine === true">
       <table>
         <thead>
@@ -248,22 +335,20 @@ export default {
       <div
         class="ingrediente"
         v-for="ingrediente in ingredienti"
-        :key="ingrediente._id"
+        :key="ingrediente.categoria"
       >
         <span> {{ ingrediente.nome }} </span>
 
         <div class="topping_btn">
-        <button @click="addAggiunte(this.pizzaID, ingrediente.progressivo)">
-          +
-        </button>
-        <button @click="addRimozioni(this.pizzaID, ingrediente.progressivo)">
-          -
-        </button>
+          <button @click="addAggiunte(this.pizzaID, ingrediente.progressivo)">
+            +
+          </button>
+          <button @click="addRimozioni(this.pizzaID, ingrediente.progressivo)">
+            -
+          </button>
+        </div>
       </div>
-      </div>
-      
     </div>
-    <button class="btn" @click="more()">AGGIUNGI</button>
     <button class="btn" @click="refresh()">CONFERMA ORDINE</button>
   </main>
 </template>
@@ -285,10 +370,36 @@ table {
   background-color: var(--white);
   text-align: center;
   font-size: 2rem;
+  /* background-color: #f4d03f;
+  background-image: radial-gradient(circle farthest-side, var(--link) 0%, var(--white) 100%); */
+  background-color: var(--white);
+  /* width: 90vw; */
+  margin-bottom: 1rem;
+}
+
+th:first-child,
+td:first-child {
+  width: 50%;
+}
+
+th:nth-child(2),
+th:last-child,
+td:nth-child(2),
+td:last-child {
+  width: 25%;
 }
 
 th {
   border-bottom: 3px solid var(--link_light);
+  font-weight: bold;
+}
+
+td {
+  border-bottom: 1px solid var(--white);
+}
+
+.ordineContainer table tbody tr {
+  margin: 1rem;
 }
 
 .ingredientiContainer {
@@ -307,14 +418,20 @@ th {
   padding: 0.5rem;
   border: 3px solid var(--link_light);
   border-radius: 5px;
+  background-color: #fbab7e;
+  background-image: linear-gradient(62deg, #fbab7e 0%, #f7ce68 100%);
+  text-align: center;
 }
 
 .ingrediente span {
-  min-width: 80%;
+  width: 80%;
   font-size: 1.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .topping_btn {
@@ -322,7 +439,7 @@ th {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-left: .2rem;
+  margin-left: 0.2rem;
 }
 
 .topping_btn button {
@@ -363,5 +480,4 @@ th {
   cursor: pointer;
   color: var(--link);
 }
-
 </style>

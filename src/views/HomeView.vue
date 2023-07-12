@@ -13,6 +13,7 @@ export default {
   data() {
     const OrdineID = ref("");
 
+    const showDashboard = ref(true)
     const showPizzaView = ref(false);
     const showOrari = ref(true);
     const showForm = ref(false);
@@ -41,6 +42,7 @@ export default {
       OrdineID,
       showPizzaView,
       showOrari,
+      showDashboard,
       showForm,
       options,
       searchText,
@@ -72,6 +74,7 @@ export default {
 
           this.showForm = true;
           this.showOrari = false;
+          this.showDashboard = false;
         })
         .catch((error) => {
           console.log(error);
@@ -154,7 +157,7 @@ export default {
 
 <template>
   <main>
-    <div class="dashboard">
+    <div class="dashboard" v-if="this.showDashboard === true">
       <h1 class="title">
         PROSSIMI ORDINI 
       </h1>
