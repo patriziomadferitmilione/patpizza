@@ -161,7 +161,6 @@ export default {
           // console.log(response.data);
           this.ingredienti = response.data;
           // console.log("risposta " + response.data);
-          this.getIngredientiCarne();
         })
         .catch((error) => {
           console.log(error);
@@ -184,7 +183,6 @@ export default {
           this.ingredienti = [...this.ingredienti, ...newData];
 
           // console.log("risposta " + response.data);
-          this.getIngredientiFormaggi();
         })
         .catch((error) => {
           console.log(error);
@@ -207,7 +205,6 @@ export default {
           this.ingredienti = [...this.ingredienti, ...newData];
 
           // console.log("risposta " + response.data);
-          this.getIngredientiVerdura();
         })
         .catch((error) => {
           console.log(error);
@@ -230,7 +227,6 @@ export default {
           this.ingredienti = [...this.ingredienti, ...newData];
 
           // console.log("risposta " + response.data);
-          this.getIngredientiCreme();
         })
         .catch((error) => {
           console.log(error);
@@ -253,7 +249,6 @@ export default {
           this.ingredienti = [...this.ingredienti, ...newData];
 
           // console.log("risposta " + response.data);
-          this.getIngredientiVari();
         })
         .catch((error) => {
           console.log(error);
