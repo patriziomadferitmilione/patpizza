@@ -1,5 +1,5 @@
 <script>
-import { ref, setTransitionHooks } from "vue";
+import { ref } from "vue";
 import axios from "axios";
 
 export default {
@@ -11,10 +11,16 @@ export default {
     const pizzaID = ref("");
     const pizze = ref([]);
     const menu = ref([]);
-    const ingredienti = ref([]);
+    const ingredientiPop = ref([]);
+    const ingredientiCarne = ref([]);
+    const ingredientiForm = ref([]);
+    const ingredientiVerd = ref([]);
+    const ingredientiCreme = ref([]);
+    const ingredientiVari = ref([]);
     const ingrediente_modificato = ref();
     const aggiunte = ref([]);
     const rimozioni = ref([]);
+    const quantita = ref(1);
 
     const showMenu = ref(true);
     const showPizze = ref(true);
@@ -24,7 +30,12 @@ export default {
     return {
       pizze,
       menu,
-      ingredienti,
+      ingredientiPop,
+      ingredientiCarne,
+      ingredientiCreme,
+      ingredientiForm,
+      ingredientiVari,
+      ingredientiVerd,
       showIngredienti,
       showPizze,
       showMenu,
@@ -33,6 +44,7 @@ export default {
       ingrediente_modificato,
       pizzaID,
       showOrdine,
+      quantita,
     };
   },
   methods: {
@@ -53,11 +65,15 @@ export default {
           console.log(error);
         });
     },
-    newPizza(idOrdine, nomePizza) {
+    newPizza(idOrdine, nomePizza, quantita) {
+      // Convert quantita to string
+      let quantitaString = quantita.toString();
+
       // Create an object for the body
       const pizzaData = {
         nome: nomePizza,
         ordine_id: idOrdine,
+        quantita: quantitaString,
       };
 
       // Create pizza
@@ -77,10 +93,11 @@ export default {
         });
 
       this.showOrdine = true;
+      this.quantita = 1;
     },
-    addAggiunte(id_pizza, prog_ingrediente) {
+    addAggiunte(id_pizza, nome_ingrediente) {
       let patchObject = {
-        aggiunte: [prog_ingrediente],
+        aggiunte: [nome_ingrediente],
       };
       axios
         .patch(
@@ -95,7 +112,7 @@ export default {
         )
         .then((response) => {
           console.log(
-            prog_ingrediente + " aggiunto a pizza con id " + id_pizza
+            nome_ingrediente + " aggiunto a pizza con id " + id_pizza
           );
           console.log(response.data);
           this.getPizze(this.OrdineID);
@@ -104,9 +121,9 @@ export default {
           console.log(error);
         });
     },
-    addRimozioni(id_pizza, prog_ingrediente) {
+    addRimozioni(id_pizza, nome_ingrediente) {
       let patchObject = {
-        rimozioni: [prog_ingrediente],
+        rimozioni: [nome_ingrediente],
       };
       axios
         .patch(
@@ -121,7 +138,7 @@ export default {
         )
         .then((response) => {
           console.log(
-            prog_ingrediente + " rimosso da pizza con id " + id_pizza
+            nome_ingrediente + " rimosso da pizza con id " + id_pizza
           );
           console.log(response.data);
           this.getPizze(this.OrdineID);
@@ -159,8 +176,8 @@ export default {
         )
         .then((response) => {
           // console.log(response.data);
-          this.ingredienti = response.data;
-          // console.log("risposta " + response.data);
+          this.ingredientiPop = response.data;
+          console.log("popolari " + JSON.stringify(response));
         })
         .catch((error) => {
           console.log(error);
@@ -179,10 +196,9 @@ export default {
         )
         .then((response) => {
           // console.log(response.data);
-          const newData = response.data;
-          this.ingredienti = [...this.ingredienti, ...newData];
+          this.ingredientiCarne = response.data;
 
-          // console.log("risposta " + response.data);
+          console.log("carne " + JSON.stringify(response));
         })
         .catch((error) => {
           console.log(error);
@@ -201,10 +217,11 @@ export default {
         )
         .then((response) => {
           // console.log(response.data);
-          const newData = response.data;
-          this.ingredienti = [...this.ingredienti, ...newData];
+          // const newData = response.data;
+          // this.ingredientiForm = [...this.ingredienti, ...newData];
+          this.ingredientiForm = response.data;
 
-          // console.log("risposta " + response.data);
+          console.log("formaggi " + JSON.stringify(response));
         })
         .catch((error) => {
           console.log(error);
@@ -223,10 +240,9 @@ export default {
         )
         .then((response) => {
           // console.log(response.data);
-          const newData = response.data;
-          this.ingredienti = [...this.ingredienti, ...newData];
+          this.ingredientiVerd = response.data;
 
-          // console.log("risposta " + response.data);
+          console.log("verdura " + JSON.stringify(response));
         })
         .catch((error) => {
           console.log(error);
@@ -245,10 +261,9 @@ export default {
         )
         .then((response) => {
           // console.log(response.data);
-          const newData = response.data;
-          this.ingredienti = [...this.ingredienti, ...newData];
+          this.ingredientiCreme = response.data;
 
-          // console.log("risposta " + response.data);
+          console.log("creme " + JSON.stringify(response));
         })
         .catch((error) => {
           console.log(error);
@@ -267,10 +282,9 @@ export default {
         )
         .then((response) => {
           // console.log(response.data);
-          const newData = response.data;
-          this.ingredienti = [...this.ingredienti, ...newData];
+          this.ingredientiVari = response.data;
 
-          // console.log("risposta " + response.data);
+          console.log("vari " + JSON.stringify(response));
         })
         .catch((error) => {
           console.log(error);
@@ -306,6 +320,7 @@ export default {
     },
     more() {
       this.showMenu = true;
+      this.showIngredienti = false;
     },
   },
   mounted() {
@@ -325,32 +340,50 @@ export default {
       <table>
         <thead>
           <tr>
+            <th>Quantita</th>
             <th>Nome</th>
-            <th>Aggiunte</th>
-            <th>Rimozioni</th>
+            <th>Modifiche</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="pizza in pizze" :key="pizza._id">
             <td>
+              {{ pizza.quantita }}
+            </td>
+            <td>
               {{ pizza.nome }}
             </td>
             <td>
-              {{ pizza.aggiunte }}
-            </td>
-            <td>
-              {{ pizza.rimozioni }}
+              <ul>
+                <li v-for="aggiunta in pizza.aggiunte" :key="aggiunta">
+                  + {{ aggiunta }}
+                </li>
+              </ul>
+              <ul>
+                <li v-for="rimozione in pizza.rimozioni" :key="rimozione">
+                  - {{ rimozione }}
+                </li>
+              </ul>
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="qt_pizza" v-if="this.showMenu === true">
+      <label for="quantita">Quantità</label>
+      <input
+        type="number"
+        id="quantita"
+        name="quantita"
+        v-model="this.quantita"
+      />
     </div>
     <div class="menuContainer" v-if="this.showMenu === true">
       <button
         v-for="menuItem in menu"
         :key="menuItem._id"
         @click="
-          newPizza(this.OrdineID, menuItem.nome),
+          newPizza(this.OrdineID, menuItem.nome, this.quantita),
             showToppings(),
             getIngredientiPopolari(),
             getIngredientiCarne(),
@@ -363,24 +396,155 @@ export default {
         {{ menuItem.nome }}
       </button>
     </div>
-    <div class="ingredientiContainer" v-else-if="this.showIngredienti === true">
-      <div
-        class="ingrediente"
-        v-for="ingrediente in ingredienti"
-        :key="ingrediente.categoria"
-      >
-        <span> {{ ingrediente.nome }} </span>
 
-        <div class="topping_btn">
-          <button @click="addAggiunte(this.pizzaID, ingrediente.progressivo)">
-            +
-          </button>
-          <button @click="addRimozioni(this.pizzaID, ingrediente.progressivo)">
-            -
-          </button>
+    <!-- Ingredienti Inizio -->
+    <div class="ingredientiSection" v-if="this.showIngredienti === true">
+      <!-- Ingredienti Popolari -->
+      <div>
+        <h1>Più Usati</h1>
+      <div class="ingredientiContainer">
+        
+        <div
+          class="ingrediente"
+          v-for="ingrediente in ingredientiPop"
+          :key="ingrediente._id"
+        >
+          <span> {{ ingrediente.nome }} </span>
+
+          <div class="topping_btn">
+            <button @click="addAggiunte(this.pizzaID, ingrediente.nome)">
+              +
+            </button>
+            <button @click="addRimozioni(this.pizzaID, ingrediente.nome)">
+              -
+            </button>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- Ingredienti Carne -->
+      <div>
+        <h1>Carne e Pesce</h1>
+
+      <div class="ingredientiContainer">
+        <div
+          class="ingrediente"
+          v-for="ingrediente in ingredientiCarne"
+          :key="ingrediente._id"
+        >
+          <span> {{ ingrediente.nome }} </span>
+
+          <div class="topping_btn">
+            <button @click="addAggiunte(this.pizzaID, ingrediente.nome)">
+              +
+            </button>
+            <button @click="addRimozioni(this.pizzaID, ingrediente.nome)">
+              -
+            </button>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- Ingredienti Formaggi -->
+      <div>
+        <h1>Latticini</h1>
+
+      <div class="ingredientiContainer">
+        <div
+          class="ingrediente"
+          v-for="ingrediente in ingredientiForm"
+          :key="ingrediente._id"
+        >
+          <span> {{ ingrediente.nome }} </span>
+
+          <div class="topping_btn">
+            <button @click="addAggiunte(this.pizzaID, ingrediente.nome)">
+              +
+            </button>
+            <button @click="addRimozioni(this.pizzaID, ingrediente.nome)">
+              -
+            </button>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- Ingredienti Verdura -->
+      <div>
+        <h1>Frutta e Verdura</h1>
+
+      <div class="ingredientiContainer">
+        <div
+          class="ingrediente"
+          v-for="ingrediente in ingredientiVerd"
+          :key="ingrediente._id"
+        >
+          <span> {{ ingrediente.nome }} </span>
+
+          <div class="topping_btn">
+            <button @click="addAggiunte(this.pizzaID, ingrediente.nome)">
+              +
+            </button>
+            <button @click="addRimozioni(this.pizzaID, ingrediente.nome)">
+              -
+            </button>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- Ingredienti Creme -->
+      <div>
+        <h1>Creme</h1>
+
+      <div class="ingredientiContainer">
+        <div
+          class="ingrediente"
+          v-for="ingrediente in ingredientiCreme"
+          :key="ingrediente._id"
+        >
+          <span> {{ ingrediente.nome }} </span>
+
+          <div class="topping_btn">
+            <button @click="addAggiunte(this.pizzaID, ingrediente.nome)">
+              +
+            </button>
+            <button @click="addRimozioni(this.pizzaID, ingrediente.nome)">
+              -
+            </button>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- Ingredienti Vari -->
+      <div>
+        <h1>Vari</h1>
+
+      <div class="ingredientiContainer">
+        <div
+          class="ingrediente"
+          v-for="ingrediente in ingredientiVari"
+          :key="ingrediente._id"
+        >
+          <span> {{ ingrediente.nome }} </span>
+
+          <div class="topping_btn">
+            <button @click="addAggiunte(this.pizzaID, ingrediente.nome)">
+              +
+            </button>
+            <button @click="addRimozioni(this.pizzaID, ingrediente.nome)">
+              -
+            </button>
+          </div>
         </div>
       </div>
     </div>
+      </div>
+    <!-- Ingredienti Fine -->
+
     <button class="btn" @click="refresh()">CONFERMA ORDINE</button>
   </main>
 </template>
@@ -405,21 +569,22 @@ table {
   /* background-color: #f4d03f;
   background-image: radial-gradient(circle farthest-side, var(--link) 0%, var(--white) 100%); */
   background-color: var(--white);
-  /* width: 90vw; */
   margin-bottom: 1rem;
+  width: 100%;
 }
 
 th:first-child,
 td:first-child {
-  width: 50%;
+  width: 10%;
+  max-width: 10%;
 }
 
-th:nth-child(2),
+/* th:nth-child(3),
 th:last-child,
-td:nth-child(2),
+td:nth-child(3),
 td:last-child {
-  width: 25%;
-}
+  width: 20%;
+} */
 
 th {
   border-bottom: 3px solid var(--link_light);
@@ -427,18 +592,45 @@ th {
 }
 
 td {
-  border-bottom: 1px solid var(--white);
+  border-bottom: 1px solid var(--link);
+}
+
+ul,
+li {
+  list-style: none;
 }
 
 .ordineContainer table tbody tr {
   margin: 1rem;
 }
 
+.ingredientiSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 0.5rem;
+  grid-row-gap: 0.5rem;
+}
+
+.ingredientiSection h1 {
+  font-weight: bold;
+  font-size: 40px;
+  padding: 1rem;
+  color: var(--input_background);
+  text-shadow: 3px 0px 7px var(--white), -3px 0px 7px var(--white), 0px 4px 7px rgba(81,67,21,0.8);
+  text-align: center;
+}
+
 .ingredientiContainer {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-column-gap: 1rem;
-  grid-row-gap: 1rem;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: .5rem;
+  grid-row-gap: .5rem;
+  background-color: var(--white);
+  padding: .5rem;
+  border-radius: 5px;
+  height: 300px;
+  max-height: 300px;
+  overflow-y: scroll;
 }
 
 .ingrediente {
@@ -453,6 +645,7 @@ td {
   background-color: #fbab7e;
   background-image: linear-gradient(62deg, #fbab7e 0%, #f7ce68 100%);
   text-align: center;
+  box-shadow: 0px 0px 20px 0px var(--link_light);
 }
 
 .ingrediente span {
@@ -512,4 +705,18 @@ td {
   cursor: pointer;
   color: var(--link);
 }
+
+.qt_pizza {
+  margin-bottom: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.qt_pizza input {
+  font-size: 30px;
+  width: 150px;
+  text-align: center;
+}
+
 </style>

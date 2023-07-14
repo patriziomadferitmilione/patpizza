@@ -25,7 +25,7 @@
 }
 
 html {
-  background-color: var(--white  );
+  background-color: #212121;
 }
 
 body::-webkit-scrollbar {
@@ -44,6 +44,7 @@ input[type='mobile'],
 input[type='date'],
 input[type='number'],
 input[type='file'],
+input[type='tel'],
 select,
 textarea {
   padding: 10px;
@@ -86,12 +87,12 @@ button {
 }
 
 #app {
-  background: url("https://raw.githubusercontent.com/patriziomadferitmilione/media/main/portfolio/background.png") center/cover fixed no-repeat;
+  /* background: url("https://raw.githubusercontent.com/patriziomadferitmilione/media/main/portfolio/background.png") center/cover fixed no-repeat; */
   padding: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--white);
+  background-color: #fac898;
   min-height: 100vh;
   min-width: 100vw;
 }

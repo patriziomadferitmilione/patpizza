@@ -8,12 +8,12 @@ import DashboardView from "./DashboardView.vue";
 export default {
   components: {
     PizzaView,
-    DashboardView
+    DashboardView,
   },
   data() {
     const OrdineID = ref("");
 
-    const showDashboard = ref(true)
+    const showDashboard = ref(true);
     const showPizzaView = ref(false);
     const showOrari = ref(true);
     const showForm = ref(false);
@@ -27,11 +27,11 @@ export default {
       zona: "",
       note: "",
     });
-    const numeroCivico = ref('')
+    const numeroCivico = ref("");
 
     const options = ref([]);
     const searchText = ref("");
-    const selectedOption = ref('');
+    const selectedOption = ref("");
 
     watch(selectedOption, (newOption) => {
       this.loadJsonData(newOption);
@@ -47,7 +47,7 @@ export default {
       options,
       searchText,
       selectedOption,
-      numeroCivico
+      numeroCivico,
     };
   },
   methods: {
@@ -83,7 +83,7 @@ export default {
     patchOrdine(id) {
       const patchObject = {
         zona: this.selectedOption,
-        indirizzo: this.NEW_ORDINE_OBJECT.indirizzo + ' ' + this.numeroCivico,
+        indirizzo: this.NEW_ORDINE_OBJECT.indirizzo + " " + this.numeroCivico,
         nomeCampanello: this.NEW_ORDINE_OBJECT.nomeCampanello,
         metodoPagamento: this.NEW_ORDINE_OBJECT.metodoPagamento,
         note: this.NEW_ORDINE_OBJECT.note,
@@ -102,7 +102,7 @@ export default {
           }
         )
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           this.showForm = false;
           this.showPizzaView = true;
         })
@@ -112,31 +112,31 @@ export default {
     },
     async loadJsonData(option) {
       try {
-        let jsonFile = '';
+        let jsonFile = "";
         switch (option) {
-          case '1':
-            jsonFile = '/giaveno.json';
+          case "1":
+            jsonFile = "/giaveno.json";
             break;
-          case '2':
-            jsonFile = '/coazze.json';
+          case "2":
+            jsonFile = "/coazze.json";
             break;
-          case '3':
-            jsonFile = '/valgioie.json';
+          case "3":
+            jsonFile = "/valgioie.json";
             break;
-          case '4':
-            jsonFile = '/trana.json';
+          case "4":
+            jsonFile = "/trana.json";
             break;
-          case '5':
-            jsonFile = '/avigliana.json';
+          case "5":
+            jsonFile = "/avigliana.json";
             break;
         }
 
         const response = await fetch(jsonFile);
         this.options = await response.json();
       } catch (error) {
-        console.error('Error loading JSON data:', error);
+        console.error("Error loading JSON data:", error);
       }
-    }
+    },
   },
   computed: {
     filteredOptions() {
@@ -149,23 +149,17 @@ export default {
       }
     },
   },
-  mounted() {
-
-  },
+  mounted() {},
 };
 </script>
 
 <template>
   <main>
     <div class="dashboard" v-if="this.showDashboard === true">
-      <h1 class="title">
-        PROSSIMI ORDINI 
-      </h1>
+      <h1 class="title">PROSSIMI ORDINI</h1>
       <DashboardView />
     </div>
-    <h1 class="title" v-if="this.showOrari === true">
-      SCEGLI ORARIO CONSEGNA
-    </h1>
+    <h1 class="title" v-if="this.showOrari === true">SCEGLI ORARIO CONSEGNA</h1>
     <table v-if="this.showOrari === true">
       <tbody>
         <tr>
@@ -189,7 +183,7 @@ export default {
       </tbody>
     </table>
 
-      <div class="form" v-if="this.showForm === true">
+    <div class="form" v-if="this.showForm === true">
       <label for="zona">Zona</label>
       <select v-model="this.selectedOption" name="zona" id="zona">
         <option value="1">GIAVENO</option>
@@ -199,16 +193,14 @@ export default {
         <option value="5">AVIGLIANA</option>
       </select>
       <!-- <pre>{{ this.options }}</pre> -->
-      <label for="nomeCampanello">Nome Campanello</label>
-      <input
-        v-model="this.NEW_ORDINE_OBJECT.nomeCampanello"
-        name="nomeCampanello"
-        id="nomeCampanello"
-        type="text"
-      />
+
       <label for="indirizzo">Indirizzo</label>
-      <input type="text" v-model="searchText" placeholder="Cerca..." />
-      <select v-model="this.NEW_ORDINE_OBJECT.indirizzo" id="indirizzo" name="indirizzo">
+      <input type="text" v-model="searchText" placeholder="Cerca..." autocomplete="off" autocorrect="off" spellcheck="false" />
+      <select
+        v-model="this.NEW_ORDINE_OBJECT.indirizzo"
+        id="indirizzo"
+        name="indirizzo"
+      >
         <option
           v-for="(option, index) in filteredOptions"
           :key="index"
@@ -224,8 +216,26 @@ export default {
         id="numeroCivico"
         type="text"
       />
+      <label for="nomeCampanello">Nome sul Campanello</label>
+      <input
+        v-model="this.NEW_ORDINE_OBJECT.nomeCampanello"
+        name="nomeCampanello"
+        id="nomeCampanello"
+        type="text"
+      />
+      <label for="cellulare">Numero di Telefono</label>
+      <input
+        v-model="this.NEW_ORDINE_OBJECT.cellulare"
+        name="cellulare"
+        id="cellulare"
+        type="tel"
+      />
       <label for="metodoPagamento">Metodo Pagamento</label>
-      <select v-model="this.NEW_ORDINE_OBJECT.metodoPagamento" name="metodoPagamento" id="metodoPagamento">
+      <select
+        v-model="this.NEW_ORDINE_OBJECT.metodoPagamento"
+        name="metodoPagamento"
+        id="metodoPagamento"
+      >
         <option value="CONTANTI">CONTANTI</option>
         <option value="POS-BANCOMAT">POS-BANCOMAT</option>
         <option value="SATISPAY">SATISPAY</option>
@@ -238,8 +248,10 @@ export default {
         cols="100"
         rows="5"
       ></textarea>
-      <button class="form_btn" @click="patchOrdine(this.OrdineID)">SCEGLI PIZZE</button>
-  </div>
+      <button class="form_btn" @click="patchOrdine(this.OrdineID)">
+        SCEGLI PIZZE
+      </button>
+    </div>
 
     <div class="pizza">
       <PizzaView v-if="this.showPizzaView === true" :OrdineID="this.OrdineID" />
@@ -297,7 +309,7 @@ button:hover {
   font-size: 3rem;
   font-weight: bold;
   background-color: var(--link);
-  padding: .5rem;
+  padding: 0.5rem;
   border-radius: 5px;
   margin: 1rem 0;
   text-align: center;
