@@ -543,7 +543,7 @@ export default {
 
       
     </div>
-    <div class="form_sub">
+    <div class="form_sub" v-if="this.showForm === true">
         <label for="note">Note</label>
       <textarea
         v-model="this.NEW_ORDINE_OBJECT.note"
