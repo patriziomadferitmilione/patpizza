@@ -17,7 +17,6 @@ export default {
     const ingredientiVerd = ref([]);
     const ingredientiCreme = ref([]);
     const ingredientiVari = ref([]);
-    const ingrediente_modificato = ref();
     const aggiunte = ref([]);
     const rimozioni = ref([]);
     const quantita = ref(1);
@@ -41,7 +40,6 @@ export default {
       showMenu,
       aggiunte,
       rimozioni,
-      ingrediente_modificato,
       pizzaID,
       showOrdine,
       quantita,
@@ -285,27 +283,6 @@ export default {
           this.ingredientiVari = response.data;
 
           console.log("vari " + JSON.stringify(response));
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    getIngredientePROG(prog) {
-      axios
-        .get(
-          `https://patpizza-be.onrender.com/ingrediente/getIngredienteProg/${prog}`,
-          {
-            headers: {
-              "Content-Type": "application/json", // Set content type to JSON
-              Accept: "*/*", // Specify the media type for the response
-            },
-          }
-        )
-        .then((response) => {
-          // console.log(response.data);
-          // console.log('risposta ' + response.data)
-
-          return (this.ingrediente_modificato = response.data);
         })
         .catch((error) => {
           console.log(error);

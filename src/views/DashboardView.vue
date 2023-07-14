@@ -117,6 +117,7 @@ export default {
 .indirizzo {
   font-size: 1.5rem;
   font-weight: bold;
+  line-height: normal;
 }
 
 .pagamento {

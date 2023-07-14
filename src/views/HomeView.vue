@@ -28,7 +28,7 @@ export default {
       note: "",
     });
     const numeroCivico = ref("");
-
+    const counts = ref([]);
     const options = ref([]);
     const searchText = ref("");
     const selectedOption = ref("");
@@ -36,6 +36,22 @@ export default {
     watch(selectedOption, (newOption) => {
       this.loadJsonData(newOption);
     });
+
+    // LABELS
+    const time_green = ref(false);
+    const time_red = ref(false);
+    const timeSlot19 = ref(false);
+    const timeSlot1915 = ref(false);
+    const timeSlot1930 = ref(false);
+    const timeSlot1945 = ref(false);
+    const timeSlot20 = ref(false);
+    const timeSlot2015 = ref(false);
+    const timeSlot2030 = ref(false);
+    const timeSlot2045 = ref(false);
+    const timeSlot21 = ref(false);
+    const timeSlot2115 = ref(false);
+    const timeSlot2130 = ref(false);
+    const timeSlot2145 = ref(false);
 
     return {
       NEW_ORDINE_OBJECT,
@@ -48,6 +64,21 @@ export default {
       searchText,
       selectedOption,
       numeroCivico,
+      time_green,
+      time_red,
+      timeSlot19,
+      timeSlot1915,
+      timeSlot1930,
+      timeSlot1945,
+      timeSlot20,
+      timeSlot2015,
+      timeSlot2030,
+      timeSlot2045,
+      timeSlot21,
+      timeSlot2115,
+      timeSlot2130,
+      timeSlot2145,
+      counts
     };
   },
   methods: {
@@ -137,6 +168,45 @@ export default {
         console.error("Error loading JSON data:", error);
       }
     },
+    getOrdiniSlot() {
+      axios
+        .get("https://patpizza-be.onrender.com/ordine/getOrdiniToday", {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "*/*",
+          },
+        })
+        .then((response) => {
+          console.log(JSON.stringify(response.data));
+
+          this.counts = response.data; // Assuming the response data is an object with count values
+
+          this.timeSlot19 = (this.counts["19"] || 0) <= 1;
+          this.timeSlot1915 = (this.counts["19:15"] || 0) <= 1;
+          this.timeSlot1930 = (this.counts["19:30"] || 0) <= 1;
+          this.timeSlot1945 = (this.counts["19:45"] || 0) <= 1;
+          this.timeSlot20 = (this.counts["20"] || 0) <= 1;
+          this.timeSlot2015 = (this.counts["20:15"] || 0) <= 1;
+          this.timeSlot2030 = (this.counts["20:30"] || 0) <= 1;
+          this.timeSlot2045 = (this.counts["20:45"] || 0) <= 1;
+          this.timeSlot21 = (this.counts["21"] || 0) <= 1;
+          this.timeSlot2115 = (this.counts["21:15"] || 0) <= 1;
+          this.timeSlot2130 = (this.counts["21:30"] || 0) <= 1;
+          this.timeSlot2145 = (this.counts["21:45"] || 0) <= 1;
+
+          this.time_green = true;
+          this.time_red = true;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    labelColors() {
+      return {
+        time_green: this.time_green,
+        time_red: this.time_red,
+      };
+    },
   },
   computed: {
     filteredOptions() {
@@ -149,7 +219,10 @@ export default {
       }
     },
   },
-  mounted() {},
+  mounted() {
+    this.labelColors();
+    this.getOrdiniSlot();
+  },
 };
 </script>
 
@@ -159,29 +232,231 @@ export default {
       <h1 class="title">PROSSIMI ORDINI</h1>
       <DashboardView />
     </div>
+    <h1 class="title">Riepilogo</h1>
+    <div class="dashboardCount">
+      
+    <div class="cards">
+      <div v-for="(count, timeSlot) in counts" :key="timeSlot" class="card">
+        <div class="card-time">{{ timeSlot }}</div>
+        <div class="card-count">{{ count }}</div>
+      </div>
+    </div>
+  </div>
+
     <h1 class="title" v-if="this.showOrari === true">SCEGLI ORARIO CONSEGNA</h1>
-    <table v-if="this.showOrari === true">
-      <tbody>
-        <tr>
-          <td><button @click="newOrdine('19:00')">19:00</button></td>
-          <td><button @click="newOrdine('19:15')">19:15</button></td>
-          <td><button @click="newOrdine('19:30')">19:30</button></td>
-          <td><button @click="newOrdine('19:45')">19:45</button></td>
-        </tr>
-        <tr>
-          <td><button @click="newOrdine('20:00')">20:00</button></td>
-          <td><button @click="newOrdine('20:15')">20:15</button></td>
-          <td><button @click="newOrdine('20:30')">20:30</button></td>
-          <td><button @click="newOrdine('20:45')">20:45</button></td>
-        </tr>
-        <tr>
-          <td><button @click="newOrdine('21:00')">21:00</button></td>
-          <td><button @click="newOrdine('21:15')">21:15</button></td>
-          <td><button @click="newOrdine('21:30')">21:30</button></td>
-          <td><button @click="newOrdine('21:45')">21:45</button></td>
-        </tr>
-      </tbody>
-    </table>
+    <div v-if="this.showOrari === true">
+      <table>
+        <tbody>
+          <tr>
+            <td v-if="this.timeSlot19 === true">
+              <button
+                :class="{ time_green: time_green }"
+                @click="newOrdine('19:00')"
+              >
+                19:00
+              </button>
+            </td>
+            <td v-else-if="this.timeSlot19 === false">
+              <button
+                :class="{ time_red: time_red }"
+                @click="newOrdine('19:00')"
+              >
+                19:00
+              </button>
+            </td>
+
+            <td v-if="this.timeSlot1915 === true">
+              <button
+                :class="{ time_green: time_green }"
+                @click="newOrdine('19:15')"
+              >
+                19:15
+              </button>
+            </td>
+            <td v-else-if="this.timeSlot1915 === false">
+              <button
+                :class="{ time_red: time_red }"
+                @click="newOrdine('19:15')"
+              >
+                19:15
+              </button>
+            </td>
+
+            <td v-if="this.timeSlot1930 === true">
+              <button
+                :class="{ time_green: time_green }"
+                @click="newOrdine('19:30')"
+              >
+                19:30
+              </button>
+            </td>
+            <td v-else-if="this.timeSlot1930 === false">
+              <button
+                :class="{ time_red: time_red }"
+                @click="newOrdine('19:30')"
+              >
+                19:30
+              </button>
+            </td>
+
+            <td v-if="this.timeSlot1945 === true">
+              <button
+                :class="{ time_green: time_green }"
+                @click="newOrdine('19:45')"
+              >
+                19:45
+              </button>
+            </td>
+            <td v-else-if="this.timeSlot1945 === false">
+              <button
+                :class="{ time_red: time_red }"
+                @click="newOrdine('19:45')"
+              >
+                19:45
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td v-if="this.timeSlot20 === true">
+              <button
+                :class="{ time_green: time_green }"
+                @click="newOrdine('20:00')"
+              >
+                20:00
+              </button>
+            </td>
+            <td v-else-if="this.timeSlot20 === false">
+              <button
+                :class="{ time_red: time_red }"
+                @click="newOrdine('20:00')"
+              >
+                20:00
+              </button>
+            </td>
+
+            <td v-if="this.timeSlot2015 === true">
+              <button
+                :class="{ time_green: time_green }"
+                @click="newOrdine('20:15')"
+              >
+                20:15
+              </button>
+            </td>
+            <td v-else-if="this.timeSlot2015 === false">
+              <button
+                :class="{ time_red: time_red }"
+                @click="newOrdine('20:15')"
+              >
+                20:15
+              </button>
+            </td>
+
+            <td v-if="this.timeSlot2030 === true">
+              <button
+                :class="{ time_green: time_green }"
+                @click="newOrdine('20:30')"
+              >
+                20:30
+              </button>
+            </td>
+            <td v-else-if="this.timeSlot2030 === false">
+              <button
+                :class="{ time_red: time_red }"
+                @click="newOrdine('20:30')"
+              >
+                20:30
+              </button>
+            </td>
+
+            <td v-if="this.timeSlot2045 === true">
+              <button
+                :class="{ time_green: time_green }"
+                @click="newOrdine('20:45')"
+              >
+                20:45
+              </button>
+            </td>
+            <td v-else-if="this.timeSlot2045 === false">
+              <button
+                :class="{ time_red: time_red }"
+                @click="newOrdine('20:45')"
+              >
+                20:45
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td v-if="this.timeSlot21 === true">
+              <button
+                :class="{ time_green: time_green }"
+                @click="newOrdine('21:00')"
+              >
+                21:00
+              </button>
+            </td>
+            <td v-else-if="this.timeSlot21 === false">
+              <button
+                :class="{ time_red: time_red }"
+                @click="newOrdine('21:00')"
+              >
+                21:00
+              </button>
+            </td>
+
+            <td v-if="this.timeSlot2115 === true">
+              <button
+                :class="{ time_green: time_green }"
+                @click="newOrdine('21:15')"
+              >
+                21:15
+              </button>
+            </td>
+            <td v-else-if="this.timeSlot2115 === false">
+              <button
+                :class="{ time_red: time_red }"
+                @click="newOrdine('21:15')"
+              >
+                21:15
+              </button>
+            </td>
+
+            <td v-if="this.timeSlot2130 === true">
+              <button
+                :class="{ time_green: time_green }"
+                @click="newOrdine('21:30')"
+              >
+                21:30
+              </button>
+            </td>
+            <td v-else-if="this.timeSlot2130 === false">
+              <button
+                :class="{ time_red: time_red }"
+                @click="newOrdine('21:30')"
+              >
+                21:30
+              </button>
+            </td>
+
+            <td v-if="this.timeSlot2145 === true">
+              <button
+                :class="{ time_green: time_green }"
+                @click="newOrdine('21:45')"
+              >
+                21:45
+              </button>
+            </td>
+            <td v-else-if="this.timeSlot2145 === false">
+              <button
+                :class="{ time_red: time_red }"
+                @click="newOrdine('21:45')"
+              >
+                21:45
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <div class="form" v-if="this.showForm === true">
       <label for="zona">Zona</label>
@@ -195,7 +470,14 @@ export default {
       <!-- <pre>{{ this.options }}</pre> -->
 
       <label for="indirizzo">Indirizzo</label>
-      <input type="text" v-model="searchText" placeholder="Cerca..." autocomplete="off" autocorrect="off" spellcheck="false" />
+      <input
+        type="text"
+        v-model="searchText"
+        placeholder="Cerca..."
+        autocomplete="off"
+        autocorrect="off"
+        spellcheck="false"
+      />
       <select
         v-model="this.NEW_ORDINE_OBJECT.indirizzo"
         id="indirizzo"
@@ -313,5 +595,55 @@ button:hover {
   border-radius: 5px;
   margin: 1rem 0;
   text-align: center;
+}
+
+.time_green {
+  background-color: var(--green);
+  color: var(--shadow);
+  font-weight: bold;
+  padding: 0.5rem;
+  border-radius: 15px;
+  box-shadow: 0px 0px 20px 0px var(--green);
+}
+.time_red {
+  background-color: var(--red);
+  color: var(--white);
+  font-weight: bold;
+  padding: 0.5rem;
+  border-radius: 15px;
+  box-shadow: 0px 0px 20px 0px var(--red);
+}
+
+.dashboardCount {
+  display: flex;
+  justify-content: center;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  width: 150px;
+  height: 100px;
+  margin: 10px;
+  background-color: #f2f2f2;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-time {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.card-count {
+  margin-top: 10px;
+  font-size: 14px;
 }
 </style>
