@@ -459,7 +459,8 @@ export default {
     </div>
 
     <div class="form" v-if="this.showForm === true">
-      <label for="zona">Zona</label>
+      <div class="form_sub">
+        <label for="zona">Zona</label>
       <select v-model="this.selectedOption" name="zona" id="zona">
         <option value="1">GIAVENO</option>
         <option value="2">COAZZE</option>
@@ -467,9 +468,11 @@ export default {
         <option value="4">TRANA</option>
         <option value="5">AVIGLIANA</option>
       </select>
+      </div>
       <!-- <pre>{{ this.options }}</pre> -->
 
-      <label for="indirizzo">Indirizzo</label>
+      <div class="form_sub">
+        <label for="indirizzo">Indirizzo</label>
       <input
         type="text"
         v-model="searchText"
@@ -491,28 +494,31 @@ export default {
           {{ option.nome }}
         </option>
       </select>
-      <label for="numeroCivico">Numero Civico</label>
-      <input
-        v-model="this.numeroCivico"
-        name="numeroCivico"
-        id="numeroCivico"
-        type="text"
-      />
-      <label for="nomeCampanello">Nome sul Campanello</label>
+      </div>
+
+
+      
+      <div class="form_sub">
+        <label for="nomeCampanello">Nome sul Campanello</label>
       <input
         v-model="this.NEW_ORDINE_OBJECT.nomeCampanello"
         name="nomeCampanello"
         id="nomeCampanello"
         type="text"
       />
-      <label for="cellulare">Numero di Telefono</label>
+      </div>
+      <div class="form_sub">
+        <label for="numeroCivico">Numero Civico</label>
       <input
-        v-model="this.NEW_ORDINE_OBJECT.cellulare"
-        name="cellulare"
-        id="cellulare"
-        type="tel"
+        v-model="this.numeroCivico"
+        name="numeroCivico"
+        id="numeroCivico"
+        type="text"
       />
-      <label for="metodoPagamento">Metodo Pagamento</label>
+      </div>
+      
+      <div class="form_sub">
+        <label for="metodoPagamento">Metodo Pagamento</label>
       <select
         v-model="this.NEW_ORDINE_OBJECT.metodoPagamento"
         name="metodoPagamento"
@@ -522,7 +528,23 @@ export default {
         <option value="POS-BANCOMAT">POS-BANCOMAT</option>
         <option value="SATISPAY">SATISPAY</option>
       </select>
-      <label for="note">Note</label>
+      </div>
+      <div class="form_sub">
+        <label for="cellulare">Numero di Telefono</label>
+      <input
+        v-model="this.NEW_ORDINE_OBJECT.cellulare"
+        name="cellulare"
+        id="cellulare"
+        type="tel"
+      />
+      </div>
+      
+
+
+      
+    </div>
+    <div class="form_sub">
+        <label for="note">Note</label>
       <textarea
         v-model="this.NEW_ORDINE_OBJECT.note"
         name="note"
@@ -530,10 +552,10 @@ export default {
         cols="100"
         rows="5"
       ></textarea>
-      <button class="form_btn" @click="patchOrdine(this.OrdineID)">
+      </div>
+    <button class="form_btn" @click="patchOrdine(this.OrdineID)">
         SCEGLI PIZZE
       </button>
-    </div>
 
     <div class="pizza">
       <PizzaView v-if="this.showPizzaView === true" :OrdineID="this.OrdineID" />
@@ -542,12 +564,27 @@ export default {
 </template>
 
 <style scoped>
-main,
-.form {
+main {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
+  padding: .5rem;
+  align-items: baseline;
+}
+
+.form_sub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 button {
