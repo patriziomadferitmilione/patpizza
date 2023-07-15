@@ -28,7 +28,7 @@ html {
   background-color: #212121;
 }
 
-body::-webkit-scrollbar {
+/* body::-webkit-scrollbar {
   display: none;
 }
 html::-webkit-scrollbar {
@@ -36,6 +36,11 @@ html::-webkit-scrollbar {
 }
 *::-webkit-scrollbar {
   display: none;
+} */
+
+body {
+overflow-y: scroll;
+  overflow-x: scroll;
 }
 
 input[type='text'],
