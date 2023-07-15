@@ -78,7 +78,7 @@ export default {
       timeSlot2115,
       timeSlot2130,
       timeSlot2145,
-      counts
+      counts,
     };
   },
   methods: {
@@ -234,14 +234,13 @@ export default {
     </div>
     <h1 class="title">Riepilogo</h1>
     <div class="dashboardCount">
-      
-    <div class="cards">
-      <div v-for="(count, timeSlot) in counts" :key="timeSlot" class="card">
-        <div class="card-time">{{ timeSlot }}</div>
-        <div class="card-count">{{ count }}</div>
+      <div class="cards">
+        <div v-for="(count, timeSlot) in counts" :key="timeSlot" class="card">
+          <div class="card-time">{{ timeSlot }}</div>
+          <div class="card-count">{{ count }}</div>
+        </div>
       </div>
     </div>
-  </div>
 
     <h1 class="title" v-if="this.showOrari === true">SCEGLI ORARIO CONSEGNA</h1>
     <div v-if="this.showOrari === true">
@@ -461,90 +460,84 @@ export default {
     <div class="form" v-if="this.showForm === true">
       <div class="form_sub">
         <label for="zona">Zona</label>
-      <select v-model="this.selectedOption" name="zona" id="zona">
-        <option value="1">GIAVENO</option>
-        <option value="2">COAZZE</option>
-        <option value="3">VALGIOIE</option>
-        <option value="4">TRANA</option>
-        <option value="5">AVIGLIANA</option>
-      </select>
+        <select v-model="this.selectedOption" name="zona" id="zona">
+          <option value="1">GIAVENO</option>
+          <option value="2">COAZZE</option>
+          <option value="3">VALGIOIE</option>
+          <option value="4">TRANA</option>
+          <option value="5">AVIGLIANA</option>
+        </select>
       </div>
       <!-- <pre>{{ this.options }}</pre> -->
 
       <div class="form_sub">
         <label for="indirizzo">Indirizzo</label>
-      <input
-        type="text"
-        v-model="searchText"
-        placeholder="Cerca..."
-        autocomplete="off"
-        autocorrect="off"
-        spellcheck="false"
-      />
-      <select
-        v-model="this.NEW_ORDINE_OBJECT.indirizzo"
-        id="indirizzo"
-        name="indirizzo"
-      >
-        <option
-          v-for="(option, index) in filteredOptions"
-          :key="index"
-          :value="option.nome"
+        <input
+          type="text"
+          v-model="searchText"
+          placeholder="Cerca..."
+          autocomplete="off"
+          autocorrect="off"
+          spellcheck="false"
+        />
+        <select
+          v-model="this.NEW_ORDINE_OBJECT.indirizzo"
+          id="indirizzo"
+          name="indirizzo"
         >
-          {{ option.nome }}
-        </option>
-      </select>
+          <option
+            v-for="(option, index) in filteredOptions"
+            :key="index"
+            :value="option.nome"
+          >
+            {{ option.nome }}
+          </option>
+        </select>
       </div>
 
-
-      
       <div class="form_sub">
         <label for="nomeCampanello">Nome sul Campanello</label>
-      <input
-        v-model="this.NEW_ORDINE_OBJECT.nomeCampanello"
-        name="nomeCampanello"
-        id="nomeCampanello"
-        type="text"
-      />
+        <input
+          v-model="this.NEW_ORDINE_OBJECT.nomeCampanello"
+          name="nomeCampanello"
+          id="nomeCampanello"
+          type="text"
+        />
       </div>
       <div class="form_sub">
         <label for="numeroCivico">Numero Civico</label>
-      <input
-        v-model="this.numeroCivico"
-        name="numeroCivico"
-        id="numeroCivico"
-        type="text"
-      />
+        <input
+          v-model="this.numeroCivico"
+          name="numeroCivico"
+          id="numeroCivico"
+          type="text"
+        />
       </div>
-      
+
       <div class="form_sub">
         <label for="metodoPagamento">Metodo Pagamento</label>
-      <select
-        v-model="this.NEW_ORDINE_OBJECT.metodoPagamento"
-        name="metodoPagamento"
-        id="metodoPagamento"
-      >
-        <option value="CONTANTI">CONTANTI</option>
-        <option value="POS-BANCOMAT">POS-BANCOMAT</option>
-        <option value="SATISPAY">SATISPAY</option>
-      </select>
+        <select
+          v-model="this.NEW_ORDINE_OBJECT.metodoPagamento"
+          name="metodoPagamento"
+          id="metodoPagamento"
+        >
+          <option value="CONTANTI">CONTANTI</option>
+          <option value="POS-BANCOMAT">POS-BANCOMAT</option>
+          <option value="SATISPAY">SATISPAY</option>
+        </select>
       </div>
       <div class="form_sub">
         <label for="cellulare">Numero di Telefono</label>
-      <input
-        v-model="this.NEW_ORDINE_OBJECT.cellulare"
-        name="cellulare"
-        id="cellulare"
-        type="tel"
-      />
+        <input
+          v-model="this.NEW_ORDINE_OBJECT.cellulare"
+          name="cellulare"
+          id="cellulare"
+          type="tel"
+        />
       </div>
-      
-
-
-      
     </div>
     <div class="form_sub" v-if="this.showForm === true">
-        <label for="note">Note</label>
+      <label for="note">Note</label>
       <textarea
         v-model="this.NEW_ORDINE_OBJECT.note"
         name="note"
@@ -552,10 +545,10 @@ export default {
         cols="100"
         rows="5"
       ></textarea>
-      </div>
+    </div>
     <button class="form_btn" @click="patchOrdine(this.OrdineID)">
-        SCEGLI PIZZE
-      </button>
+      SCEGLI PIZZE
+    </button>
 
     <div class="pizza">
       <PizzaView v-if="this.showPizzaView === true" :OrdineID="this.OrdineID" />
@@ -576,7 +569,7 @@ main {
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 1rem;
   grid-row-gap: 1rem;
-  padding: .5rem;
+  padding: 0.5rem;
   align-items: baseline;
 }
 
