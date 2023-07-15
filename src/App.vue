@@ -1,17 +1,14 @@
 <script>
 import HomeView from "./views/HomeView.vue";
-import BluetoothView from "./views/BluetoothView.vue";
 
 export default {
   components: {
-    HomeView,
-    BluetoothView
+    HomeView
   }
 }
 </script>
 
 <template>
-  <BluetoothView />
   <HomeView />
 </template>
 
