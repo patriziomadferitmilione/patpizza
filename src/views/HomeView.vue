@@ -1,9 +1,9 @@
 <script>
-import { ref, watch } from "vue";
-import axios from "axios";
+import { ref, watch } from 'vue'
+import axios from 'axios'
 
-import PizzaView from "./PizzaView.vue";
-import DashboardView from "./DashboardView.vue";
+import PizzaView from './PizzaView.vue'
+import DashboardView from './DashboardView.vue'
 
 export default {
   components: {
@@ -11,47 +11,47 @@ export default {
     DashboardView,
   },
   data() {
-    const OrdineID = ref("");
+    const OrdineID = ref('')
 
-    const showDashboard = ref(true);
-    const showPizzaView = ref(false);
-    const showOrari = ref(true);
-    const showForm = ref(false);
+    const showDashboard = ref(true)
+    const showPizzaView = ref(false)
+    const showOrari = ref(true)
+    const showForm = ref(false)
 
     const NEW_ORDINE_OBJECT = ref({
-      customer_id: "",
-      indirizzo: "",
-      nomeCampanello: "",
-      orarioConsegna: "",
-      metodoPagamento: "",
-      zona: "",
-      note: "",
-    });
-    const numeroCivico = ref("");
-    const counts = ref([]);
-    const options = ref([]);
-    const searchText = ref("");
-    const selectedOption = ref("");
+      customer_id: '',
+      indirizzo: '',
+      nomeCampanello: '',
+      orarioConsegna: '',
+      metodoPagamento: '',
+      zona: '',
+      note: '',
+    })
+    const numeroCivico = ref('')
+    const counts = ref([])
+    const options = ref([])
+    const searchText = ref('')
+    const selectedOption = ref('')
 
     watch(selectedOption, (newOption) => {
-      this.loadJsonData(newOption);
-    });
+      this.loadJsonData(newOption)
+    })
 
     // LABELS
-    const time_green = ref(false);
-    const time_red = ref(false);
-    const timeSlot19 = ref(false);
-    const timeSlot1915 = ref(false);
-    const timeSlot1930 = ref(false);
-    const timeSlot1945 = ref(false);
-    const timeSlot20 = ref(false);
-    const timeSlot2015 = ref(false);
-    const timeSlot2030 = ref(false);
-    const timeSlot2045 = ref(false);
-    const timeSlot21 = ref(false);
-    const timeSlot2115 = ref(false);
-    const timeSlot2130 = ref(false);
-    const timeSlot2145 = ref(false);
+    const time_green = ref(false)
+    const time_red = ref(false)
+    const timeSlot19 = ref(false)
+    const timeSlot1915 = ref(false)
+    const timeSlot1930 = ref(false)
+    const timeSlot1945 = ref(false)
+    const timeSlot20 = ref(false)
+    const timeSlot2015 = ref(false)
+    const timeSlot2030 = ref(false)
+    const timeSlot2045 = ref(false)
+    const timeSlot21 = ref(false)
+    const timeSlot2115 = ref(false)
+    const timeSlot2130 = ref(false)
+    const timeSlot2145 = ref(false)
 
     return {
       NEW_ORDINE_OBJECT,
@@ -79,46 +79,46 @@ export default {
       timeSlot2130,
       timeSlot2145,
       counts,
-    };
+    }
   },
   methods: {
     newOrdine(time) {
-      this.NEW_ORDINE_OBJECT.orarioConsegna = time;
+      this.NEW_ORDINE_OBJECT.orarioConsegna = time
 
       axios
         .post(
           // "http://localhost:3000/ordine/newOrdine",
-          "https://patpizza-be.onrender.com/ordine/newOrdine",
+          'https://patpizza-be.onrender.com/ordine/newOrdine',
           this.NEW_ORDINE_OBJECT,
           {
             headers: {
-              "Content-Type": "application/json", // Set content type to JSON
-              Accept: "*/*", // Specify the media type for the response
+              'Content-Type': 'application/json', // Set content type to JSON
+              Accept: '*/*', // Specify the media type for the response
             },
           }
         )
         .then((res) => {
           // console.log("risposta " + res.data);
 
-          this.OrdineID = res.data._id;
+          this.OrdineID = res.data._id
           // console.log(this.OrdineID)
 
-          this.showForm = true;
-          this.showOrari = false;
-          this.showDashboard = false;
+          this.showForm = true
+          this.showOrari = false
+          this.showDashboard = false
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     patchOrdine(id) {
       const patchObject = {
         zona: this.selectedOption,
-        indirizzo: this.NEW_ORDINE_OBJECT.indirizzo + " " + this.numeroCivico,
+        indirizzo: this.NEW_ORDINE_OBJECT.indirizzo + ' ' + this.numeroCivico,
         nomeCampanello: this.NEW_ORDINE_OBJECT.nomeCampanello,
         metodoPagamento: this.NEW_ORDINE_OBJECT.metodoPagamento,
         note: this.NEW_ORDINE_OBJECT.note,
-      };
+      }
 
       axios
         .patch(
@@ -127,103 +127,103 @@ export default {
           patchObject,
           {
             headers: {
-              "Content-Type": "application/json", // Set content type to JSON
-              Accept: "*/*", // Specify the media type for the response
+              'Content-Type': 'application/json', // Set content type to JSON
+              Accept: '*/*', // Specify the media type for the response
             },
           }
         )
         .then((response) => {
           // console.log(response.data);
-          this.showForm = false;
-          this.showPizzaView = true;
+          this.showForm = false
+          this.showPizzaView = true
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     async loadJsonData(option) {
       try {
-        let jsonFile = "";
+        let jsonFile = ''
         switch (option) {
-          case "1":
-            jsonFile = "/giaveno.json";
-            break;
-          case "2":
-            jsonFile = "/coazze.json";
-            break;
-          case "3":
-            jsonFile = "/valgioie.json";
-            break;
-          case "4":
-            jsonFile = "/trana.json";
-            break;
-          case "5":
-            jsonFile = "/avigliana.json";
-            break;
+          case '1':
+            jsonFile = '/giaveno.json'
+            break
+          case '2':
+            jsonFile = '/coazze.json'
+            break
+          case '3':
+            jsonFile = '/valgioie.json'
+            break
+          case '4':
+            jsonFile = '/trana.json'
+            break
+          case '5':
+            jsonFile = '/avigliana.json'
+            break
         }
 
-        const response = await fetch(jsonFile);
-        this.options = await response.json();
+        const response = await fetch(jsonFile)
+        this.options = await response.json()
       } catch (error) {
-        console.error("Error loading JSON data:", error);
+        console.error('Error loading JSON data:', error)
       }
     },
     getOrdiniSlot() {
       axios
-        .get("https://patpizza-be.onrender.com/ordine/getOrdiniToday", {
+        .get('https://patpizza-be.onrender.com/ordine/getOrdiniToday', {
           headers: {
-            "Content-Type": "application/json",
-            Accept: "*/*",
+            'Content-Type': 'application/json',
+            Accept: '*/*',
           },
         })
         .then((response) => {
-          console.log(JSON.stringify(response.data));
+          console.log(JSON.stringify(response.data))
 
-          this.counts = response.data; // Assuming the response data is an object with count values
+          this.counts = response.data // Assuming the response data is an object with count values
 
-          this.timeSlot19 = (this.counts["19"] || 0) <= 1;
-          this.timeSlot1915 = (this.counts["19:15"] || 0) <= 1;
-          this.timeSlot1930 = (this.counts["19:30"] || 0) <= 1;
-          this.timeSlot1945 = (this.counts["19:45"] || 0) <= 1;
-          this.timeSlot20 = (this.counts["20"] || 0) <= 1;
-          this.timeSlot2015 = (this.counts["20:15"] || 0) <= 1;
-          this.timeSlot2030 = (this.counts["20:30"] || 0) <= 1;
-          this.timeSlot2045 = (this.counts["20:45"] || 0) <= 1;
-          this.timeSlot21 = (this.counts["21"] || 0) <= 1;
-          this.timeSlot2115 = (this.counts["21:15"] || 0) <= 1;
-          this.timeSlot2130 = (this.counts["21:30"] || 0) <= 1;
-          this.timeSlot2145 = (this.counts["21:45"] || 0) <= 1;
+          this.timeSlot19 = (this.counts['19'] || 0) <= 1
+          this.timeSlot1915 = (this.counts['19:15'] || 0) <= 1
+          this.timeSlot1930 = (this.counts['19:30'] || 0) <= 1
+          this.timeSlot1945 = (this.counts['19:45'] || 0) <= 1
+          this.timeSlot20 = (this.counts['20'] || 0) <= 1
+          this.timeSlot2015 = (this.counts['20:15'] || 0) <= 1
+          this.timeSlot2030 = (this.counts['20:30'] || 0) <= 1
+          this.timeSlot2045 = (this.counts['20:45'] || 0) <= 1
+          this.timeSlot21 = (this.counts['21'] || 0) <= 1
+          this.timeSlot2115 = (this.counts['21:15'] || 0) <= 1
+          this.timeSlot2130 = (this.counts['21:30'] || 0) <= 1
+          this.timeSlot2145 = (this.counts['21:45'] || 0) <= 1
 
-          this.time_green = true;
-          this.time_red = true;
+          this.time_green = true
+          this.time_red = true
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     labelColors() {
       return {
         time_green: this.time_green,
         time_red: this.time_red,
-      };
+      }
     },
   },
   computed: {
     filteredOptions() {
-      if (this.searchText === "") {
-        return this.options;
+      if (this.searchText === '') {
+        return this.options
       } else {
         return this.options.filter((option) =>
           option.nome.toLowerCase().includes(this.searchText.toLowerCase())
-        );
+        )
       }
     },
   },
   mounted() {
-    this.labelColors();
-    this.getOrdiniSlot();
+    this.labelColors()
+    this.getOrdiniSlot()
   },
-};
+}
 </script>
 
 <template>
@@ -232,7 +232,7 @@ export default {
       <h1 class="title">PROSSIMI ORDINI</h1>
       <DashboardView />
     </div>
-    <h1 class="title">Riepilogo</h1>
+    <!-- <h1 class="title">Riepilogo</h1>
     <div class="dashboardCount">
       <div class="cards">
         <div v-for="(count, timeSlot) in counts" :key="timeSlot" class="card">
@@ -240,10 +240,10 @@ export default {
           <div class="card-count">{{ count }}</div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <h1 class="title" v-if="this.showOrari === true">SCEGLI ORARIO CONSEGNA</h1>
-    <div v-if="this.showOrari === true">
+    <div class="orariContainer" v-if="this.showOrari === true">
       <table>
         <tbody>
           <tr>
@@ -605,14 +605,9 @@ button:hover {
   background-color: var(--link_light);
 }
 
-.pizza {
-  margin-top: 1rem;
-  padding: 1rem;
-  width: 100%;
-}
-
+.pizza,
 .dashboard {
-  margin-bottom: 1rem;
+  margin-top: 1rem;
   padding: 1rem;
   width: 100%;
 }
@@ -627,20 +622,22 @@ button:hover {
   text-align: center;
 }
 
+.time_green,
+.time_red {
+  font-weight: bold;
+  padding: 0.5rem;
+  border-radius: 15px;
+}
+
 .time_green {
   background-color: var(--green);
   color: var(--shadow);
-  font-weight: bold;
-  padding: 0.5rem;
-  border-radius: 15px;
   box-shadow: 0px 0px 20px 0px var(--green);
 }
+
 .time_red {
   background-color: var(--red);
   color: var(--white);
-  font-weight: bold;
-  padding: 0.5rem;
-  border-radius: 15px;
   box-shadow: 0px 0px 20px 0px var(--red);
 }
 
@@ -675,5 +672,43 @@ button:hover {
 .card-count {
   margin-top: 10px;
   font-size: 14px;
+}
+
+/* Updated media queries */
+@media only screen and (max-width: 430px) {
+  main,
+  table,
+  .form,
+  .orariContainer {
+    overflow-x: scroll;
+    width: 100vw;
+  }
+
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  button {
+    width: auto;
+    height: auto;
+    font-size: 2rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .card {
+    width: 120px;
+    height: 90px;
+  }
+
+  .card-time {
+    font-size: 16px;
+  }
+
+  .card-count {
+    font-size: 12px;
+  }
 }
 </style>

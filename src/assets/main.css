@@ -10,17 +10,17 @@
   --border: #396c7f;
   --green: #519325;
   --blue: #214bca;
-  --light_green: #63B42D;
+  --light_green: #63b42d;
   --brown: #5e3b00;
-  --white: #F0F1FA;
-  --red: #D32222;
+  --white: #f0f1fa;
+  --red: #d32222;
   --input_background: rgb(24, 48, 57);
 }
 
 *,
 *:before,
 *:after {
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -39,8 +39,10 @@ html::-webkit-scrollbar {
 } */
 
 body {
-overflow-y: scroll;
+  overflow-y: scroll;
   overflow-x: scroll;
+  margin: 0rem;
+  padding: 0rem;
 }
 
 input[type='text'],
@@ -77,7 +79,8 @@ a:hover {
   color: var(--link_hover);
 }
 
-label, option {
+label,
+option {
   color: var(--link_light);
   font-size: 1.5rem;
   font-weight: bold;
@@ -93,7 +96,6 @@ button {
 
 #app {
   /* background: url("https://raw.githubusercontent.com/patriziomadferitmilione/media/main/portfolio/background.png") center/cover fixed no-repeat; */
-  padding: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;

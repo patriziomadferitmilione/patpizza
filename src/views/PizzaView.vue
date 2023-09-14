@@ -1,30 +1,30 @@
 <script>
-import { ref } from "vue";
-import axios from "axios";
+import { ref } from 'vue'
+import axios from 'axios'
 
 export default {
-  name: "PizzaView",
+  name: 'PizzaView',
   props: {
     OrdineID: String,
   },
   data() {
-    const pizzaID = ref("");
-    const pizze = ref([]);
-    const menu = ref([]);
-    const ingredientiPop = ref([]);
-    const ingredientiCarne = ref([]);
-    const ingredientiForm = ref([]);
-    const ingredientiVerd = ref([]);
-    const ingredientiCreme = ref([]);
-    const ingredientiVari = ref([]);
-    const aggiunte = ref([]);
-    const rimozioni = ref([]);
-    const quantita = ref(1);
+    const pizzaID = ref('')
+    const pizze = ref([])
+    const menu = ref([])
+    const ingredientiPop = ref([])
+    const ingredientiCarne = ref([])
+    const ingredientiForm = ref([])
+    const ingredientiVerd = ref([])
+    const ingredientiCreme = ref([])
+    const ingredientiVari = ref([])
+    const aggiunte = ref([])
+    const rimozioni = ref([])
+    const quantita = ref(1)
 
-    const showMenu = ref(true);
-    const showPizze = ref(true);
-    const showIngredienti = ref(false);
-    const showOrdine = ref(false);
+    const showMenu = ref(true)
+    const showPizze = ref(true)
+    const showIngredienti = ref(false)
+    const showOrdine = ref(false)
 
     return {
       pizze,
@@ -43,173 +43,170 @@ export default {
       pizzaID,
       showOrdine,
       quantita,
-    };
+    }
   },
   methods: {
     getMenu() {
       axios
-        .get("https://patpizza-be.onrender.com/menu/getMenu", {
+        .get('https://patpizza-be.onrender.com/menu/getMenu', {
           headers: {
-            "Content-Type": "application/json", // Set content type to JSON
-            Accept: "*/*", // Specify the media type for the response
+            'Content-Type': 'application/json', // Set content type to JSON
+            Accept: '*/*', // Specify the media type for the response
           },
         })
         .then((response) => {
           // console.log(response.data);
-          this.menu = response.data;
+          this.menu = response.data
           // console.log('risposta ' + response.data)
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     newPizza(idOrdine, nomePizza, quantita) {
       // Convert quantita to string
-      let quantitaString = quantita.toString();
+      let quantitaString = quantita.toString()
 
       // Create an object for the body
       const pizzaData = {
         nome: nomePizza,
         ordine_id: idOrdine,
         quantita: quantitaString,
-      };
+      }
 
       // Create pizza
       axios
-        .post("https://patpizza-be.onrender.com/pizza/newPizza", pizzaData, {
+        .post('https://patpizza-be.onrender.com/pizza/newPizza', pizzaData, {
           headers: {
-            "Content-Type": "application/json", // Set content type to JSON
-            Accept: "*/*", // Specify the media type for the response
+            'Content-Type': 'application/json', // Set content type to JSON
+            Accept: '*/*', // Specify the media type for the response
           },
         })
         .then((response) => {
-          this.pizzaID = response.data._id;
-          this.getPizze(this.OrdineID);
+          this.pizzaID = response.data._id
+          this.getPizze(this.OrdineID)
+          console.log(this.OrdineID.toString())
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
 
-      this.showOrdine = true;
-      this.quantita = 1;
+      this.showOrdine = true
+      this.quantita = 1
     },
     addAggiunte(id_pizza, nome_ingrediente) {
       let patchObject = {
         aggiunte: [nome_ingrediente],
-      };
+      }
       axios
         .patch(
           `https://patpizza-be.onrender.com/pizza/addAggiunte/${id_pizza}`,
           patchObject,
           {
             headers: {
-              "Content-Type": "application/json", // Set content type to JSON
-              Accept: "*/*", // Specify the media type for the response
+              'Content-Type': 'application/json', // Set content type to JSON
+              Accept: '*/*', // Specify the media type for the response
             },
           }
         )
         .then((response) => {
-          console.log(
-            nome_ingrediente + " aggiunto a pizza con id " + id_pizza
-          );
-          console.log(response.data);
-          this.getPizze(this.OrdineID);
+          console.log(nome_ingrediente + ' aggiunto a pizza con id ' + id_pizza)
+          console.log(response.data)
+          this.getPizze(this.OrdineID)
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     addRimozioni(id_pizza, nome_ingrediente) {
       let patchObject = {
         rimozioni: [nome_ingrediente],
-      };
+      }
       axios
         .patch(
           `https://patpizza-be.onrender.com/pizza/addRimozioni/${id_pizza}`,
           patchObject,
           {
             headers: {
-              "Content-Type": "application/json", // Set content type to JSON
-              Accept: "*/*", // Specify the media type for the response
+              'Content-Type': 'application/json', // Set content type to JSON
+              Accept: '*/*', // Specify the media type for the response
             },
           }
         )
         .then((response) => {
-          console.log(
-            nome_ingrediente + " rimosso da pizza con id " + id_pizza
-          );
-          console.log(response.data);
-          this.getPizze(this.OrdineID);
+          console.log(nome_ingrediente + ' rimosso da pizza con id ' + id_pizza)
+          console.log(response.data)
+          this.getPizze(this.OrdineID)
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     getPizze(id) {
       axios
         .get(`https://patpizza-be.onrender.com/pizza/getOrdinePizze/${id}`, {
           headers: {
-            "Content-Type": "application/json", // Set content type to JSON
-            Accept: "*/*", // Specify the media type for the response
+            'Content-Type': 'application/json', // Set content type to JSON
+            Accept: '*/*', // Specify the media type for the response
           },
         })
         .then((response) => {
-          console.log(response);
-          this.pizze = response.data;
+          console.log(response)
+          this.pizze = response.data
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     getIngredientiPopolari() {
       axios
         .get(
-          "https://patpizza-be.onrender.com/ingrediente/getIngredienti/popolari",
+          'https://patpizza-be.onrender.com/ingrediente/getIngredienti/popolari',
           {
             headers: {
-              "Content-Type": "application/json", // Set content type to JSON
-              Accept: "*/*", // Specify the media type for the response
+              'Content-Type': 'application/json', // Set content type to JSON
+              Accept: '*/*', // Specify the media type for the response
             },
           }
         )
         .then((response) => {
           // console.log(response.data);
-          this.ingredientiPop = response.data;
-          console.log("popolari " + JSON.stringify(response));
+          this.ingredientiPop = response.data
+          console.log('popolari ' + JSON.stringify(response))
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     getIngredientiCarne() {
       axios
         .get(
-          "https://patpizza-be.onrender.com/ingrediente/getIngredienti/carne",
+          'https://patpizza-be.onrender.com/ingrediente/getIngredienti/carne',
           {
             headers: {
-              "Content-Type": "application/json", // Set content type to JSON
-              Accept: "*/*", // Specify the media type for the response
+              'Content-Type': 'application/json', // Set content type to JSON
+              Accept: '*/*', // Specify the media type for the response
             },
           }
         )
         .then((response) => {
           // console.log(response.data);
-          this.ingredientiCarne = response.data;
+          this.ingredientiCarne = response.data
 
-          console.log("carne " + JSON.stringify(response));
+          console.log('carne ' + JSON.stringify(response))
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     getIngredientiFormaggi() {
       axios
         .get(
-          "https://patpizza-be.onrender.com/ingrediente/getIngredienti/formaggi",
+          'https://patpizza-be.onrender.com/ingrediente/getIngredienti/formaggi',
           {
             headers: {
-              "Content-Type": "application/json", // Set content type to JSON
-              Accept: "*/*", // Specify the media type for the response
+              'Content-Type': 'application/json', // Set content type to JSON
+              Accept: '*/*', // Specify the media type for the response
             },
           }
         )
@@ -217,94 +214,94 @@ export default {
           // console.log(response.data);
           // const newData = response.data;
           // this.ingredientiForm = [...this.ingredienti, ...newData];
-          this.ingredientiForm = response.data;
+          this.ingredientiForm = response.data
 
-          console.log("formaggi " + JSON.stringify(response));
+          console.log('formaggi ' + JSON.stringify(response))
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     getIngredientiVerdura() {
       axios
         .get(
-          "https://patpizza-be.onrender.com/ingrediente/getIngredienti/verdura",
+          'https://patpizza-be.onrender.com/ingrediente/getIngredienti/verdura',
           {
             headers: {
-              "Content-Type": "application/json", // Set content type to JSON
-              Accept: "*/*", // Specify the media type for the response
+              'Content-Type': 'application/json', // Set content type to JSON
+              Accept: '*/*', // Specify the media type for the response
             },
           }
         )
         .then((response) => {
           // console.log(response.data);
-          this.ingredientiVerd = response.data;
+          this.ingredientiVerd = response.data
 
-          console.log("verdura " + JSON.stringify(response));
+          console.log('verdura ' + JSON.stringify(response))
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     getIngredientiCreme() {
       axios
         .get(
-          "https://patpizza-be.onrender.com/ingrediente/getIngredienti/creme",
+          'https://patpizza-be.onrender.com/ingrediente/getIngredienti/creme',
           {
             headers: {
-              "Content-Type": "application/json", // Set content type to JSON
-              Accept: "*/*", // Specify the media type for the response
+              'Content-Type': 'application/json', // Set content type to JSON
+              Accept: '*/*', // Specify the media type for the response
             },
           }
         )
         .then((response) => {
           // console.log(response.data);
-          this.ingredientiCreme = response.data;
+          this.ingredientiCreme = response.data
 
-          console.log("creme " + JSON.stringify(response));
+          console.log('creme ' + JSON.stringify(response))
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     getIngredientiVari() {
       axios
         .get(
-          "https://patpizza-be.onrender.com/ingrediente/getIngredienti/vari",
+          'https://patpizza-be.onrender.com/ingrediente/getIngredienti/vari',
           {
             headers: {
-              "Content-Type": "application/json", // Set content type to JSON
-              Accept: "*/*", // Specify the media type for the response
+              'Content-Type': 'application/json', // Set content type to JSON
+              Accept: '*/*', // Specify the media type for the response
             },
           }
         )
         .then((response) => {
           // console.log(response.data);
-          this.ingredientiVari = response.data;
+          this.ingredientiVari = response.data
 
-          console.log("vari " + JSON.stringify(response));
+          console.log('vari ' + JSON.stringify(response))
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     showToppings() {
-      this.showMenu = false;
-      this.showIngredienti = true;
+      this.showMenu = false
+      this.showIngredienti = true
     },
     refresh() {
-      location.reload();
+      location.reload()
     },
     more() {
-      this.showMenu = true;
-      this.showIngredienti = false;
+      this.showMenu = true
+      this.showIngredienti = false
     },
   },
   mounted() {
-    this.getMenu();
+    this.getMenu()
     // this.getIngredientiPopolari();
   },
-};
+}
 </script>
 
 <template>
@@ -379,147 +376,146 @@ export default {
       <!-- Ingredienti Popolari -->
       <div>
         <h1>Più Usati</h1>
-      <div class="ingredientiContainer">
-        
-        <div
-          class="ingrediente"
-          v-for="ingrediente in ingredientiPop"
-          :key="ingrediente._id"
-        >
-          <span> {{ ingrediente.nome }} </span>
+        <div class="ingredientiContainer">
+          <div
+            class="ingrediente"
+            v-for="ingrediente in ingredientiPop"
+            :key="ingrediente._id"
+          >
+            <span> {{ ingrediente.nome }} </span>
 
-          <div class="topping_btn">
-            <button @click="addAggiunte(this.pizzaID, ingrediente.nome)">
-              +
-            </button>
-            <button @click="addRimozioni(this.pizzaID, ingrediente.nome)">
-              -
-            </button>
+            <div class="topping_btn">
+              <button @click="addAggiunte(this.pizzaID, ingrediente.nome)">
+                +
+              </button>
+              <button @click="addRimozioni(this.pizzaID, ingrediente.nome)">
+                -
+              </button>
+            </div>
           </div>
         </div>
-      </div>
       </div>
 
       <!-- Ingredienti Carne -->
       <div>
         <h1>Carne e Pesce</h1>
 
-      <div class="ingredientiContainer">
-        <div
-          class="ingrediente"
-          v-for="ingrediente in ingredientiCarne"
-          :key="ingrediente._id"
-        >
-          <span> {{ ingrediente.nome }} </span>
+        <div class="ingredientiContainer">
+          <div
+            class="ingrediente"
+            v-for="ingrediente in ingredientiCarne"
+            :key="ingrediente._id"
+          >
+            <span> {{ ingrediente.nome }} </span>
 
-          <div class="topping_btn">
-            <button @click="addAggiunte(this.pizzaID, ingrediente.nome)">
-              +
-            </button>
-            <button @click="addRimozioni(this.pizzaID, ingrediente.nome)">
-              -
-            </button>
+            <div class="topping_btn">
+              <button @click="addAggiunte(this.pizzaID, ingrediente.nome)">
+                +
+              </button>
+              <button @click="addRimozioni(this.pizzaID, ingrediente.nome)">
+                -
+              </button>
+            </div>
           </div>
         </div>
-      </div>
       </div>
 
       <!-- Ingredienti Formaggi -->
       <div>
         <h1>Latticini</h1>
 
-      <div class="ingredientiContainer">
-        <div
-          class="ingrediente"
-          v-for="ingrediente in ingredientiForm"
-          :key="ingrediente._id"
-        >
-          <span> {{ ingrediente.nome }} </span>
+        <div class="ingredientiContainer">
+          <div
+            class="ingrediente"
+            v-for="ingrediente in ingredientiForm"
+            :key="ingrediente._id"
+          >
+            <span> {{ ingrediente.nome }} </span>
 
-          <div class="topping_btn">
-            <button @click="addAggiunte(this.pizzaID, ingrediente.nome)">
-              +
-            </button>
-            <button @click="addRimozioni(this.pizzaID, ingrediente.nome)">
-              -
-            </button>
+            <div class="topping_btn">
+              <button @click="addAggiunte(this.pizzaID, ingrediente.nome)">
+                +
+              </button>
+              <button @click="addRimozioni(this.pizzaID, ingrediente.nome)">
+                -
+              </button>
+            </div>
           </div>
         </div>
-      </div>
       </div>
 
       <!-- Ingredienti Verdura -->
       <div>
         <h1>Frutta e Verdura</h1>
 
-      <div class="ingredientiContainer">
-        <div
-          class="ingrediente"
-          v-for="ingrediente in ingredientiVerd"
-          :key="ingrediente._id"
-        >
-          <span> {{ ingrediente.nome }} </span>
+        <div class="ingredientiContainer">
+          <div
+            class="ingrediente"
+            v-for="ingrediente in ingredientiVerd"
+            :key="ingrediente._id"
+          >
+            <span> {{ ingrediente.nome }} </span>
 
-          <div class="topping_btn">
-            <button @click="addAggiunte(this.pizzaID, ingrediente.nome)">
-              +
-            </button>
-            <button @click="addRimozioni(this.pizzaID, ingrediente.nome)">
-              -
-            </button>
+            <div class="topping_btn">
+              <button @click="addAggiunte(this.pizzaID, ingrediente.nome)">
+                +
+              </button>
+              <button @click="addRimozioni(this.pizzaID, ingrediente.nome)">
+                -
+              </button>
+            </div>
           </div>
         </div>
-      </div>
       </div>
 
       <!-- Ingredienti Creme -->
       <div>
         <h1>Creme</h1>
 
-      <div class="ingredientiContainer">
-        <div
-          class="ingrediente"
-          v-for="ingrediente in ingredientiCreme"
-          :key="ingrediente._id"
-        >
-          <span> {{ ingrediente.nome }} </span>
+        <div class="ingredientiContainer">
+          <div
+            class="ingrediente"
+            v-for="ingrediente in ingredientiCreme"
+            :key="ingrediente._id"
+          >
+            <span> {{ ingrediente.nome }} </span>
 
-          <div class="topping_btn">
-            <button @click="addAggiunte(this.pizzaID, ingrediente.nome)">
-              +
-            </button>
-            <button @click="addRimozioni(this.pizzaID, ingrediente.nome)">
-              -
-            </button>
+            <div class="topping_btn">
+              <button @click="addAggiunte(this.pizzaID, ingrediente.nome)">
+                +
+              </button>
+              <button @click="addRimozioni(this.pizzaID, ingrediente.nome)">
+                -
+              </button>
+            </div>
           </div>
         </div>
-      </div>
       </div>
 
       <!-- Ingredienti Vari -->
       <div>
         <h1>Vari</h1>
 
-      <div class="ingredientiContainer">
-        <div
-          class="ingrediente"
-          v-for="ingrediente in ingredientiVari"
-          :key="ingrediente._id"
-        >
-          <span> {{ ingrediente.nome }} </span>
+        <div class="ingredientiContainer">
+          <div
+            class="ingrediente"
+            v-for="ingrediente in ingredientiVari"
+            :key="ingrediente._id"
+          >
+            <span> {{ ingrediente.nome }} </span>
 
-          <div class="topping_btn">
-            <button @click="addAggiunte(this.pizzaID, ingrediente.nome)">
-              +
-            </button>
-            <button @click="addRimozioni(this.pizzaID, ingrediente.nome)">
-              -
-            </button>
+            <div class="topping_btn">
+              <button @click="addAggiunte(this.pizzaID, ingrediente.nome)">
+                +
+              </button>
+              <button @click="addRimozioni(this.pizzaID, ingrediente.nome)">
+                -
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-      </div>
     <!-- Ingredienti Fine -->
 
     <button class="btn" @click="refresh()">CONFERMA ORDINE</button>
@@ -536,16 +532,11 @@ main {
 }
 
 table {
-  padding: 10px;
   border: 2px solid var(--link_light);
-  /* box-shadow: 0px 0px 10px 0px var(--link); */
   border-radius: 5px;
   background-color: var(--white);
   text-align: center;
   font-size: 2rem;
-  /* background-color: #f4d03f;
-  background-image: radial-gradient(circle farthest-side, var(--link) 0%, var(--white) 100%); */
-  background-color: var(--white);
   margin-bottom: 1rem;
   width: 100%;
 }
@@ -553,15 +544,7 @@ table {
 th:first-child,
 td:first-child {
   width: 10%;
-  max-width: 10%;
 }
-
-/* th:nth-child(3),
-th:last-child,
-td:nth-child(3),
-td:last-child {
-  width: 20%;
-} */
 
 th {
   border-bottom: 3px solid var(--link_light);
@@ -582,58 +565,52 @@ li {
 }
 
 .ingredientiSection {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 0.5rem;
-  grid-row-gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .ingredientiSection h1 {
   font-weight: bold;
   font-size: 40px;
-  padding: 1rem;
   color: var(--input_background);
-  text-shadow: 3px 0px 7px var(--white), -3px 0px 7px var(--white), 0px 4px 7px rgba(81,67,21,0.8);
+  text-shadow: 3px 0px 7px var(--white), -3px 0px 7px var(--white),
+    0px 4px 7px rgba(81, 67, 21, 0.8);
   text-align: center;
+  padding: 1rem;
 }
 
 .ingredientiContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: .5rem;
-  grid-row-gap: .5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   background-color: var(--white);
-  padding: .5rem;
   border-radius: 5px;
   height: 300px;
-  max-height: 300px;
   overflow-y: scroll;
 }
 
 .ingrediente {
   display: flex;
   flex-direction: row;
-  width: 250px;
-  height: 100px;
-  margin: 0.3rem 0;
+  width: 90%;
+  height: 8rem;
   padding: 0.5rem;
   border: 3px solid var(--link_light);
   border-radius: 5px;
-  background-color: #fbab7e;
   background-image: linear-gradient(62deg, #fbab7e 0%, #f7ce68 100%);
   text-align: center;
   box-shadow: 0px 0px 20px 0px var(--link_light);
 }
 
 .ingrediente span {
-  width: 80%;
+  flex: 1;
   font-size: 1.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
-  font-size: 1.5rem;
-  font-weight: bold;
 }
 
 .topping_btn {
@@ -649,7 +626,8 @@ li {
   width: 30px;
 }
 
-.btn {
+.btn,
+.menuContainer button {
   background-color: var(--link);
   margin: 1rem 0;
   padding: 1rem;
@@ -657,9 +635,11 @@ li {
   border: none;
   font-weight: bold;
   font-size: 1.5rem;
+  width: 250px;
 }
 
-.btn:hover {
+.btn:hover,
+.menuContainer button:hover {
   cursor: pointer;
   color: var(--white);
 }
@@ -667,20 +647,7 @@ li {
 .menuContainer {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-column-gap: 1rem;
-  grid-row-gap: 1rem;
-}
-.menuContainer button {
-  width: 250px;
-  height: 50px;
-  border-radius: 5px;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.menuContainer button:hover {
-  cursor: pointer;
-  color: var(--link);
+  gap: 1rem;
 }
 
 .qt_pizza {
@@ -696,4 +663,38 @@ li {
   text-align: center;
 }
 
+@media only screen and (max-width: 430px) {
+  main,
+  .ordineContainer {
+    overflow-x: scroll;
+    width: 100vw;
+    padding: 1rem;
+  }
+
+  .ingredientiContainer,
+  .menuContainer {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .ingrediente {
+    width: 90%;
+    margin: 0.5rem;
+  }
+
+  .btn,
+  .menuContainer button {
+    width: 100%;
+  }
+
+  .ingredientiContainer {
+    padding: 0.5rem;
+    grid-template-columns: 1fr 1fr;
+    border-radius: 5px;
+    height: 500px;
+    max-width: 100%;
+    overflow-y: scroll;
+    overflow-x: scroll;
+  }
+}
 </style>
