@@ -19,7 +19,6 @@ export default {
     const showForm = ref(false)
 
     const NEW_ORDINE_OBJECT = ref({
-      customer_id: '',
       indirizzo: '',
       nomeCampanello: '',
       orarioConsegna: '',
