@@ -176,25 +176,14 @@ export default {
           },
         })
         .then((response) => {
-          console.log(JSON.stringify(response.data))
+          const counts = response.data.reduce((acc, order) => {
+            const slot = order.orarioConsegna
+            acc[slot] = (acc[slot] || 0) + 1
+            return acc
+          }, {})
 
-          this.counts = response.data // Assuming the response data is an object with count values
-
-          this.timeSlot19 = (this.counts['19'] || 0) <= 1
-          this.timeSlot1915 = (this.counts['19:15'] || 0) <= 1
-          this.timeSlot1930 = (this.counts['19:30'] || 0) <= 1
-          this.timeSlot1945 = (this.counts['19:45'] || 0) <= 1
-          this.timeSlot20 = (this.counts['20'] || 0) <= 1
-          this.timeSlot2015 = (this.counts['20:15'] || 0) <= 1
-          this.timeSlot2030 = (this.counts['20:30'] || 0) <= 1
-          this.timeSlot2045 = (this.counts['20:45'] || 0) <= 1
-          this.timeSlot21 = (this.counts['21'] || 0) <= 1
-          this.timeSlot2115 = (this.counts['21:15'] || 0) <= 1
-          this.timeSlot2130 = (this.counts['21:30'] || 0) <= 1
-          this.timeSlot2145 = (this.counts['21:45'] || 0) <= 1
-
-          this.time_green = true
-          this.time_red = true
+          // Set the counts
+          this.counts = counts
         })
         .catch((error) => {
           console.log(error)
