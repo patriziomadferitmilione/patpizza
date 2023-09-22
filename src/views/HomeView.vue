@@ -219,6 +219,10 @@ export default {
         time_red: this.time_red,
       }
     },
+    newOrdineHandler(time) {
+      this.NEW_ORDINE_OBJECT.orarioConsegna = time
+      this.newOrdine(time)
+    },
   },
   computed: {
     filteredOptions() {
@@ -265,9 +269,9 @@ export default {
                   timeClass(`${hour}:${minute < 10 ? '0' + minute : minute}`)
                 "
                 @click="
-                  NEW_ORDINE_OBJECT.orarioConsegna = `${hour}:${
-                    minute < 10 ? '0' + minute : minute
-                  }`
+                  newOrdineHandler(
+                    `${hour}:${minute < 10 ? '0' + minute : minute}`
+                  )
                 "
               >
                 {{ hour }}:{{ minute < 10 ? '0' + minute : minute }}
