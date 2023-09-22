@@ -231,7 +231,7 @@ export default {
       <h1 class="title">PROSSIMI ORDINI</h1>
       <DashboardView />
     </div>
-    <!-- <h1 class="title">Riepilogo</h1>
+    <h1 class="title">Riepilogo</h1>
     <div class="dashboardCount">
       <div class="cards">
         <div v-for="(count, timeSlot) in counts" :key="timeSlot" class="card">
@@ -239,10 +239,10 @@ export default {
           <div class="card-count">{{ count }}</div>
         </div>
       </div>
-    </div> -->
+    </div>
 
-    <h1 class="title" v-if="this.showOrari === true">SCEGLI ORARIO CONSEGNA</h1>
     <div class="orariContainer" v-if="this.showOrari === true">
+      <h1 class="scegliOrario">SCEGLI ORARIO CONSEGNA</h1>
       <table>
         <tbody>
           <tr>
@@ -579,6 +579,13 @@ main {
   justify-content: center;
 }
 
+.scegliOrario {
+  text-align: center;
+  background-color: var(--link);
+  padding: 1rem;
+  font-size: 20px;
+}
+
 button {
   width: 200px;
   height: 70px;
@@ -593,7 +600,8 @@ button:hover {
 }
 
 .form_btn {
-  background-color: var(--link);
+  background-color: var(--link_light);
+  color: var(--link);
   margin: 1rem 0;
   border-radius: 5px;
   border: none;
@@ -601,7 +609,8 @@ button:hover {
 }
 
 .form_btn:hover {
-  background-color: var(--link_light);
+  background-color: var(--link);
+  color: var(--red);
 }
 
 .pizza,
@@ -681,6 +690,10 @@ button:hover {
   .orariContainer {
     overflow-x: scroll;
     width: 100vw;
+  }
+
+  .orariContainer td button {
+    width: 5.5rem;
   }
 
   .form {

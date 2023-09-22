@@ -307,11 +307,11 @@ export default {
 <template>
   <main>
     <button class="btn" @click="more()" v-if="this.showOrdine === true">
-      AGGIUNGI
+      NUOVA PIZZA
     </button>
 
     <div class="ordineContainer" v-if="this.showOrdine === true">
-      <table>
+      <table class="table_ordine">
         <thead>
           <tr>
             <th>Quantita</th>
@@ -354,6 +354,7 @@ export default {
     </div>
     <div class="menuContainer" v-if="this.showMenu === true">
       <button
+        class="btn_menu_item"
         v-for="menuItem in menu"
         :key="menuItem._id"
         @click="
@@ -605,6 +606,10 @@ li {
   box-shadow: 0px 0px 20px 0px var(--link_light);
 }
 
+.btn_menu_item {
+  box-shadow: 0px 0px 10px 0px var(--link_light);
+}
+
 .ingrediente span {
   flex: 1;
   font-size: 1.5rem;
@@ -646,8 +651,12 @@ li {
 
 .menuContainer {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 1rem;
+  border: 3px solid var(--link);
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 0px 0px 20px 0px var(--link_light);
 }
 
 .qt_pizza {
@@ -673,8 +682,11 @@ li {
 
   .ingredientiContainer,
   .menuContainer {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 0.5rem;
+    margin-right: 30px;
+    max-height: 400px;
+    overflow: scroll;
   }
 
   .ingrediente {
@@ -695,6 +707,15 @@ li {
     max-width: 100%;
     overflow-y: scroll;
     overflow-x: scroll;
+  }
+
+  .btn_menu_item {
+    max-width: 150px;
+  }
+
+  .table_ordine {
+    overflow-x: scroll;
+    min-width: 200vw;
   }
 }
 </style>
