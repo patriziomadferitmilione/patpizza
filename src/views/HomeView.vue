@@ -79,6 +79,8 @@ export default {
       minutes,
       getOrdiniSlot,
       counts,
+      hours: ['19', '20', '21'],
+      minutes: ['00', '15', '30', '45'],
     }
   },
   methods: {
@@ -183,34 +185,26 @@ export default {
           },
         })
         .then((response) => {
-          console.log(JSON.stringify(response.data))
-
           // Count orders for each time slot
-          const counts = response.data.reduce((acc, order) => {
+          this.counts = response.data.reduce((acc, order) => {
             const slot = order.orarioConsegna
             acc[slot] = (acc[slot] || 0) + 1
             return acc
           }, {})
 
-          // Set the counts
-          this.counts = counts
+          // Log the data if you want it
+          console.log(JSON.stringify(response.data))
 
-          // Set the time slot availability based on the counts
-          this.timeSlot19 = (this.counts['19:00'] || 0) < 2
-          this.timeSlot1915 = (this.counts['19:15'] || 0) < 2
-          this.timeSlot1930 = (this.counts['19:30'] || 0) < 2
-          this.timeSlot1945 = (this.counts['19:45'] || 0) < 2
-          this.timeSlot20 = (this.counts['20:00'] || 0) < 2
-          this.timeSlot2015 = (this.counts['20:15'] || 0) < 2
-          this.timeSlot2030 = (this.counts['20:30'] || 0) < 2
-          this.timeSlot2045 = (this.counts['20:45'] || 0) < 2
-          this.timeSlot21 = (this.counts['21:00'] || 0) < 2
-          this.timeSlot2115 = (this.counts['21:15'] || 0) < 2
-          this.timeSlot2130 = (this.counts['21:30'] || 0) < 2
-          this.timeSlot2145 = (this.counts['21:45'] || 0) < 2
+          // Setting individual properties for each time slot
+          this.hours.forEach((hour) => {
+            this.minutes.forEach((minute) => {
+              const slot = `${hour}:${minute < 10 ? '0' + minute : minute}`
+              this[`timeSlot${hour}${minute}`] = (this.counts[slot] || 0) < 2
+            })
+          })
         })
         .catch((error) => {
-          console.log(error)
+          console.error(error)
         })
     },
     labelColors() {
@@ -218,6 +212,12 @@ export default {
         time_green: this.time_green,
         time_red: this.time_red,
       }
+    },
+    timeClass(slot) {
+      const count = this.counts[slot] || 0
+      if (count === 0) return 'time_green'
+      if (count === 1) return 'time_white'
+      return 'time_red'
     },
     newOrdineHandler(time) {
       this.NEW_ORDINE_OBJECT.orarioConsegna = time
@@ -266,15 +266,15 @@ export default {
             <td v-for="minute in minutes" :key="minute">
               <button
                 :class="
-                  timeClass(`${hour}:${minute < 10 ? '0' + minute : minute}`)
+                  timeClass(`${hour}:${minute < 10 ? '' + minute : minute}`)
                 "
                 @click="
                   newOrdineHandler(
-                    `${hour}:${minute < 10 ? '0' + minute : minute}`
+                    `${hour}:${minute < 10 ? '' + minute : minute}`
                   )
                 "
               >
-                {{ hour }}:{{ minute < 10 ? '0' + minute : minute }}
+                {{ hour }}:{{ minute < 10 ? '' + minute : minute }}
               </button>
             </td>
           </tr>
@@ -496,6 +496,10 @@ button:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.time_white {
+  background-color: white;
 }
 
 .card-time {
