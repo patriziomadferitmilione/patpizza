@@ -111,8 +111,16 @@ export default {
         })
     },
     patchOrdine(id) {
+      const optionMapping = {
+        1: 'GIAVENO',
+        2: 'COAZZE',
+        3: 'VALGIOIE',
+        4: 'TRANA',
+        5: 'AVIGLIANA',
+      }
+
       const patchObject = {
-        zona: this.selectedOption,
+        zona: optionMapping[this.selectedOption],
         indirizzo: this.NEW_ORDINE_OBJECT.indirizzo + ' ' + this.numeroCivico,
         nomeCampanello: this.NEW_ORDINE_OBJECT.nomeCampanello,
         metodoPagamento: this.NEW_ORDINE_OBJECT.metodoPagamento,
@@ -121,7 +129,6 @@ export default {
 
       axios
         .patch(
-          // `http://localhost:3000/ordine/updateOrdine/${id}`,
           `https://patpizza-be.onrender.com/ordine/updateOrdine/${id}`,
           patchObject,
           {
@@ -132,7 +139,6 @@ export default {
           }
         )
         .then((response) => {
-          // console.log(response.data);
           this.showForm = false
           this.showPizzaView = true
         })
