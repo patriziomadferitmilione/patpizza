@@ -12,12 +12,10 @@ export default {
   },
   data() {
     const OrdineID = ref('')
-
     const showDashboard = ref(true)
     const showPizzaView = ref(false)
     const showOrari = ref(true)
     const showForm = ref(false)
-
     const NEW_ORDINE_OBJECT = ref({
       indirizzo: '',
       nomeCampanello: '',
@@ -27,30 +25,43 @@ export default {
       note: '',
     })
     const numeroCivico = ref('')
-    const counts = ref([])
+    const counts = ref({})
     const options = ref([])
     const searchText = ref('')
     const selectedOption = ref('')
+
+    const hours = ref([19, 20, 21])
+    const minutes = ref([0, 15, 30, 45])
 
     watch(selectedOption, (newOption) => {
       this.loadJsonData(newOption)
     })
 
-    // LABELS
-    const time_green = ref(false)
-    const time_red = ref(false)
-    const timeSlot19 = ref(false)
-    const timeSlot1915 = ref(false)
-    const timeSlot1930 = ref(false)
-    const timeSlot1945 = ref(false)
-    const timeSlot20 = ref(false)
-    const timeSlot2015 = ref(false)
-    const timeSlot2030 = ref(false)
-    const timeSlot2045 = ref(false)
-    const timeSlot21 = ref(false)
-    const timeSlot2115 = ref(false)
-    const timeSlot2130 = ref(false)
-    const timeSlot2145 = ref(false)
+    const timeClass = (slot) => {
+      return (counts.value[slot] || 0) < 2 ? 'time_green' : 'time_red'
+    }
+
+    const getOrdiniSlot = () => {
+      axios
+        .get('https://patpizza-be.onrender.com/ordine/getOrdiniToday', {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: '*/*',
+          },
+        })
+        .then((response) => {
+          const countsData = response.data.reduce((acc, order) => {
+            const slot = order.orarioConsegna
+            acc[slot] = (acc[slot] || 0) + 1
+            return acc
+          }, {})
+
+          counts.value = countsData
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
 
     return {
       NEW_ORDINE_OBJECT,
@@ -63,20 +74,10 @@ export default {
       searchText,
       selectedOption,
       numeroCivico,
-      time_green,
-      time_red,
-      timeSlot19,
-      timeSlot1915,
-      timeSlot1930,
-      timeSlot1945,
-      timeSlot20,
-      timeSlot2015,
-      timeSlot2030,
-      timeSlot2045,
-      timeSlot21,
-      timeSlot2115,
-      timeSlot2130,
-      timeSlot2145,
+      timeClass,
+      hours,
+      minutes,
+      getOrdiniSlot,
       counts,
     }
   },
@@ -253,214 +254,23 @@ export default {
       </div>
     </div>
 
-    <div class="orariContainer" v-if="this.showOrari === true">
+    <div class="orariContainer" v-if="showOrari">
       <h1 class="scegliOrario">SCEGLI ORARIO CONSEGNA</h1>
       <table>
         <tbody>
-          <tr>
-            <td v-if="this.timeSlot19 === true">
+          <tr v-for="hour in hours" :key="hour">
+            <td v-for="minute in minutes" :key="minute">
               <button
-                :class="{ time_green: time_green }"
-                @click="newOrdine('19:00')"
+                :class="
+                  timeClass(`${hour}:${minute < 10 ? '0' + minute : minute}`)
+                "
+                @click="
+                  NEW_ORDINE_OBJECT.orarioConsegna = `${hour}:${
+                    minute < 10 ? '0' + minute : minute
+                  }`
+                "
               >
-                19:00
-              </button>
-            </td>
-            <td v-else-if="this.timeSlot19 === false">
-              <button
-                :class="{ time_red: time_red }"
-                @click="newOrdine('19:00')"
-              >
-                19:00
-              </button>
-            </td>
-
-            <td v-if="this.timeSlot1915 === true">
-              <button
-                :class="{ time_green: time_green }"
-                @click="newOrdine('19:15')"
-              >
-                19:15
-              </button>
-            </td>
-            <td v-else-if="this.timeSlot1915 === false">
-              <button
-                :class="{ time_red: time_red }"
-                @click="newOrdine('19:15')"
-              >
-                19:15
-              </button>
-            </td>
-
-            <td v-if="this.timeSlot1930 === true">
-              <button
-                :class="{ time_green: time_green }"
-                @click="newOrdine('19:30')"
-              >
-                19:30
-              </button>
-            </td>
-            <td v-else-if="this.timeSlot1930 === false">
-              <button
-                :class="{ time_red: time_red }"
-                @click="newOrdine('19:30')"
-              >
-                19:30
-              </button>
-            </td>
-
-            <td v-if="this.timeSlot1945 === true">
-              <button
-                :class="{ time_green: time_green }"
-                @click="newOrdine('19:45')"
-              >
-                19:45
-              </button>
-            </td>
-            <td v-else-if="this.timeSlot1945 === false">
-              <button
-                :class="{ time_red: time_red }"
-                @click="newOrdine('19:45')"
-              >
-                19:45
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td v-if="this.timeSlot20 === true">
-              <button
-                :class="{ time_green: time_green }"
-                @click="newOrdine('20:00')"
-              >
-                20:00
-              </button>
-            </td>
-            <td v-else-if="this.timeSlot20 === false">
-              <button
-                :class="{ time_red: time_red }"
-                @click="newOrdine('20:00')"
-              >
-                20:00
-              </button>
-            </td>
-
-            <td v-if="this.timeSlot2015 === true">
-              <button
-                :class="{ time_green: time_green }"
-                @click="newOrdine('20:15')"
-              >
-                20:15
-              </button>
-            </td>
-            <td v-else-if="this.timeSlot2015 === false">
-              <button
-                :class="{ time_red: time_red }"
-                @click="newOrdine('20:15')"
-              >
-                20:15
-              </button>
-            </td>
-
-            <td v-if="this.timeSlot2030 === true">
-              <button
-                :class="{ time_green: time_green }"
-                @click="newOrdine('20:30')"
-              >
-                20:30
-              </button>
-            </td>
-            <td v-else-if="this.timeSlot2030 === false">
-              <button
-                :class="{ time_red: time_red }"
-                @click="newOrdine('20:30')"
-              >
-                20:30
-              </button>
-            </td>
-
-            <td v-if="this.timeSlot2045 === true">
-              <button
-                :class="{ time_green: time_green }"
-                @click="newOrdine('20:45')"
-              >
-                20:45
-              </button>
-            </td>
-            <td v-else-if="this.timeSlot2045 === false">
-              <button
-                :class="{ time_red: time_red }"
-                @click="newOrdine('20:45')"
-              >
-                20:45
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td v-if="this.timeSlot21 === true">
-              <button
-                :class="{ time_green: time_green }"
-                @click="newOrdine('21:00')"
-              >
-                21:00
-              </button>
-            </td>
-            <td v-else-if="this.timeSlot21 === false">
-              <button
-                :class="{ time_red: time_red }"
-                @click="newOrdine('21:00')"
-              >
-                21:00
-              </button>
-            </td>
-
-            <td v-if="this.timeSlot2115 === true">
-              <button
-                :class="{ time_green: time_green }"
-                @click="newOrdine('21:15')"
-              >
-                21:15
-              </button>
-            </td>
-            <td v-else-if="this.timeSlot2115 === false">
-              <button
-                :class="{ time_red: time_red }"
-                @click="newOrdine('21:15')"
-              >
-                21:15
-              </button>
-            </td>
-
-            <td v-if="this.timeSlot2130 === true">
-              <button
-                :class="{ time_green: time_green }"
-                @click="newOrdine('21:30')"
-              >
-                21:30
-              </button>
-            </td>
-            <td v-else-if="this.timeSlot2130 === false">
-              <button
-                :class="{ time_red: time_red }"
-                @click="newOrdine('21:30')"
-              >
-                21:30
-              </button>
-            </td>
-
-            <td v-if="this.timeSlot2145 === true">
-              <button
-                :class="{ time_green: time_green }"
-                @click="newOrdine('21:45')"
-              >
-                21:45
-              </button>
-            </td>
-            <td v-else-if="this.timeSlot2145 === false">
-              <button
-                :class="{ time_red: time_red }"
-                @click="newOrdine('21:45')"
-              >
-                21:45
+                {{ hour }}:{{ minute < 10 ? '0' + minute : minute }}
               </button>
             </td>
           </tr>
