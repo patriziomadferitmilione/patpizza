@@ -1,10 +1,10 @@
 <script>
-import HomeView from "./views/HomeView.vue";
+import HomeView from './views/HomeView.vue'
 
 export default {
   components: {
-    HomeView
-  }
+    HomeView,
+  },
 }
 </script>
 
@@ -12,6 +12,4 @@ export default {
   <HomeView />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

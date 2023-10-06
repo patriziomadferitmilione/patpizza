@@ -5,10 +5,13 @@ import axios from 'axios'
 import PizzaView from './PizzaView.vue'
 import DashboardView from './DashboardView.vue'
 
+import DashboardGenerale from './DashboardGenerale.vue'
+
 export default {
   components: {
     PizzaView,
     DashboardView,
+    DashboardGenerale,
   },
   data() {
     const OrdineID = ref('')
@@ -37,9 +40,9 @@ export default {
       this.loadJsonData(newOption)
     })
 
-    const timeClass = (slot) => {
-      return (counts.value[slot] || 0) < 2 ? 'time_green' : 'time_red'
-    }
+    // const timeClass = (slot) => {
+    //   return (counts.value[slot] || 0) < 2 ? 'time_green' : 'time_red'
+    // }
 
     const getOrdiniSlot = () => {
       axios
@@ -74,13 +77,11 @@ export default {
       searchText,
       selectedOption,
       numeroCivico,
-      timeClass,
+      // timeClass,
       hours,
       minutes,
       getOrdiniSlot,
       counts,
-      hours: ['19', '20', '21'],
-      minutes: ['00', '15', '30', '45'],
     }
   },
   methods: {
@@ -176,37 +177,37 @@ export default {
         console.error('Error loading JSON data:', error)
       }
     },
-    getOrdiniSlot() {
-      axios
-        .get('https://patpizza-be.onrender.com/ordine/getOrdiniToday', {
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: '*/*',
-          },
-        })
-        .then((response) => {
-          // Count orders for each time slot
-          this.counts = response.data.reduce((acc, order) => {
-            const slot = order.orarioConsegna
-            acc[slot] = (acc[slot] || 0) + 1
-            return acc
-          }, {})
+    // getOrdiniSlot() {
+    //   axios
+    //     .get('https://patpizza-be.onrender.com/ordine/getOrdiniToday', {
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //         Accept: '*/*',
+    //       },
+    //     })
+    //     .then((response) => {
+    //       // Count orders for each time slot
+    //       this.counts = response.data.reduce((acc, order) => {
+    //         const slot = order.orarioConsegna
+    //         acc[slot] = (acc[slot] || 0) + 1
+    //         return acc
+    //       }, {})
 
-          // Log the data if you want it
-          console.log(JSON.stringify(response.data))
+    //       // Log the data if you want it
+    //       console.log(JSON.stringify(response.data))
 
-          // Setting individual properties for each time slot
-          this.hours.forEach((hour) => {
-            this.minutes.forEach((minute) => {
-              const slot = `${hour}:${minute < 10 ? '0' + minute : minute}`
-              this[`timeSlot${hour}${minute}`] = (this.counts[slot] || 0) < 2
-            })
-          })
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    },
+    //       // Setting individual properties for each time slot
+    //       this.hours.forEach((hour) => {
+    //         this.minutes.forEach((minute) => {
+    //           const slot = `${hour}:${minute < 10 ? '0' + minute : minute}`
+    //           this[`timeSlot${hour}${minute}`] = (this.counts[slot] || 0) < 2
+    //         })
+    //       })
+    //     })
+    //     .catch((error) => {
+    //       console.error(error)
+    //     })
+    // },
     labelColors() {
       return {
         time_green: this.time_green,
@@ -244,6 +245,8 @@ export default {
 
 <template>
   <main>
+    <DashboardGenerale />
+
     <div class="dashboard" v-if="this.showDashboard === true">
       <h1 class="title">PROSSIMI ORDINI</h1>
       <DashboardView />
@@ -282,7 +285,7 @@ export default {
       </table>
     </div>
 
-    <div class="form" v-if="this.showForm === true">
+    <div class="form" v-if="showForm === true">
       <div class="form_sub">
         <label for="zona">Zona</label>
         <select v-model="this.selectedOption" name="zona" id="zona">
