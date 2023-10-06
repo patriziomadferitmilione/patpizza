@@ -9,6 +9,13 @@
     />
     <v-chart
       v-show="dataLoaded"
+      ref="chartOrdiniPayment"
+      class="chart"
+      :option="optionOrdiniPayment"
+      autoresize
+    />
+    <v-chart
+      v-show="dataLoaded"
       ref="chartPizzeZone"
       class="chart"
       :option="optionPizzeZone"
@@ -56,6 +63,7 @@ export default defineComponent({
       chartOrdiniZone: ref(null),
       chartPizzeZone: ref(null),
       chartPizzeTime: ref(null),
+      chartOrdiniPayment: ref(null),
       dataLoaded, // Expose it so it can be used in the template
     }
   },
@@ -68,12 +76,20 @@ export default defineComponent({
           top: '20%',
         },
         tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)',
+          tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)',
+            backgroundColor: 'rgba(50,50,50,0.7)',
+            borderColor: '#212121',
+            borderWidth: 1,
+            textStyle: {
+              color: '#212121',
+            },
+          },
         },
         legend: {
           orient: 'horizontal',
-          top: '90%',
+          top: '95%',
           data: [], // Initialize as empty array
           textStyle: {
             color: '#f5f5f5',
@@ -111,12 +127,20 @@ export default defineComponent({
           top: '20%',
         },
         tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)',
+          tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)',
+            backgroundColor: 'rgba(50,50,50,0.7)',
+            borderColor: '#212121',
+            borderWidth: 1,
+            textStyle: {
+              color: '#212121',
+            },
+          },
         },
         legend: {
           orient: 'horizontal',
-          top: '90%',
+          top: '95%',
           data: [],
           textStyle: {
             color: '#f5f5f5',
@@ -160,15 +184,15 @@ export default defineComponent({
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c} ({d}%)',
           backgroundColor: 'rgba(50,50,50,0.7)',
-          borderColor: '#333',
+          borderColor: '#212121',
           borderWidth: 1,
           textStyle: {
-            color: '#fff',
+            color: '#212121',
           },
         },
         legend: {
           orient: 'horizontal',
-          top: '90%',
+          top: '95%',
           data: [],
           textStyle: {
             color: '#f5f5f5',
@@ -213,6 +237,58 @@ export default defineComponent({
           },
         ],
       },
+      optionOrdiniPayment: {
+        // New option object
+        title: {
+          text: 'Ordini Per Metodo Pagamento',
+          left: 'center',
+          top: '20%',
+        },
+        tooltip: {
+          tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)',
+            backgroundColor: 'rgba(50,50,50,0.7)',
+            borderColor: '#212121',
+            borderWidth: 1,
+            textStyle: {
+              color: '#212121',
+            },
+          },
+        },
+        legend: {
+          orient: 'horizontal',
+          top: '95%',
+          data: [], // Initialize as empty array
+          textStyle: {
+            color: '#f5f5f5',
+            fontSize: 12,
+          },
+          icon: 'circle',
+          itemWidth: 20,
+          itemHeight: 20,
+          backgroundColor: 'rgba(40,76,84,0.7)',
+          borderColor: '#ccc',
+          borderWidth: 2,
+          padding: 10, // [top, right, bottom, left]
+        },
+        series: [
+          {
+            name: 'Traffic Sources',
+            type: 'pie',
+            radius: '55%',
+            center: ['50%', '60%'],
+            data: [], // Initialize as empty array
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
+              },
+            },
+          },
+        ],
+      },
       dataLoaded: false,
     }
   },
@@ -225,6 +301,7 @@ export default defineComponent({
           this.pizzePerZone(),
           this.pizzePerTime(),
           this.ordiniPerZone(),
+          this.ordiniPerMetodoPagamento(),
         ]) // Added ordiniPerZone here
         this.dataLoaded = true
       } catch (error) {
@@ -335,6 +412,36 @@ export default defineComponent({
 
         this.optionPizzeTime.legend.data = legendData
         this.optionPizzeTime.series[0].data = seriesData
+      } catch (error) {
+        console.error('Failed to fetch data', error)
+      }
+    },
+    async ordiniPerMetodoPagamento() {
+      // New method
+      try {
+        const response = await axios.get(
+          'https://patpizza-be.onrender.com/ordine/getOrdini'
+        )
+        const data = response.data
+        const paymentMap = {}
+
+        data.forEach((item) => {
+          if (!paymentMap[item.metodoPagamento]) {
+            paymentMap[item.metodoPagamento] = 0
+          }
+          paymentMap[item.metodoPagamento]++
+        })
+
+        const legendData = []
+        const seriesData = []
+
+        for (const [key, value] of Object.entries(paymentMap)) {
+          legendData.push(key)
+          seriesData.push({ value, name: key })
+        }
+
+        this.optionOrdiniPayment.legend.data = legendData
+        this.optionOrdiniPayment.series[0].data = seriesData
       } catch (error) {
         console.error('Failed to fetch data', error)
       }
