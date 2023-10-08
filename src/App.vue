@@ -17,9 +17,15 @@ export default defineComponent({
       <router-view></router-view>
     </div>
     <div class="bottom-bar">
-      <router-link to="/" class="bottom-bar-item">Home</router-link>
-      <router-link to="/graphs" class="bottom-bar-item">Dashboard</router-link>
-      <router-link to="/newItem" class="bottom-bar-item">Another</router-link>
+      <router-link to="/" class="bottom-bar-item"
+        ><i class="mdi mdi-file-document-plus"></i
+      ></router-link>
+      <router-link to="/graphs" class="bottom-bar-item"
+        ><i class="mdi mdi-chart-line"></i
+      ></router-link>
+      <router-link to="/newItem" class="bottom-bar-item"
+        ><i class="mdi mdi-plus-box"></i
+      ></router-link>
     </div>
     <!-- <DashboardGenerale />
     <HomeView /> -->
@@ -64,6 +70,7 @@ export default defineComponent({
 }
 
 .bottom-bar-item {
+  font-size: 2rem;
   padding: 5px;
   cursor: pointer;
   color: var(--link);
