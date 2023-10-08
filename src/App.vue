@@ -1,14 +1,7 @@
 <script>
-import HomeView from './views/HomeView.vue'
-import DashboardGenerale from './views/DashboardGenerale.vue'
 import { defineComponent } from 'vue'
 
-export default defineComponent({
-  components: {
-    HomeView,
-    DashboardGenerale,
-  },
-})
+export default defineComponent({})
 </script>
 
 <template>
@@ -27,8 +20,6 @@ export default defineComponent({
         ><i class="mdi mdi-plus-box"></i
       ></router-link>
     </div>
-    <!-- <DashboardGenerale />
-    <HomeView /> -->
   </div>
 </template>
 
