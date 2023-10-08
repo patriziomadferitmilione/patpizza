@@ -1,15 +1,76 @@
 <script>
 import HomeView from './views/HomeView.vue'
+import DashboardGenerale from './views/DashboardGenerale.vue'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   components: {
     HomeView,
+    DashboardGenerale,
   },
-}
+})
 </script>
 
 <template>
-  <HomeView />
+  <div class="main">
+    <div class="app">
+      <router-view></router-view>
+    </div>
+    <div class="bottom-bar">
+      <router-link to="/" class="bottom-bar-item">Home</router-link>
+      <router-link to="/graphs" class="bottom-bar-item">Dashboard</router-link>
+      <router-link to="/newItem" class="bottom-bar-item">Another</router-link>
+    </div>
+    <!-- <DashboardGenerale />
+    <HomeView /> -->
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 90vh;
+  max-height: 90vh;
+  top: 0;
+  overflow: hidden;
+}
+
+.bottom-bar {
+  width: 100%;
+  max-width: 100vw;
+  height: 10vh;
+  min-height: 10vh;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  position: sticky;
+  bottom: 0;
+  background-color: var(--shadow);
+  color: var(--link);
+  width: 100%;
+  font-size: 1.2rem;
+}
+
+.bottom-bar-item {
+  padding: 5px;
+  cursor: pointer;
+  color: var(--link);
+  background-color: var(--shadow);
+}
+
+.bottom-bar-item:hover {
+  color: var(--link_light);
+}
+</style>

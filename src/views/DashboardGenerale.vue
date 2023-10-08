@@ -1,39 +1,71 @@
 <template>
-  <div class="chart_container">
-    <v-chart
-      v-show="dataLoaded"
-      ref="chartOrdiniZone"
-      class="chart"
-      :option="optionOrdiniZone"
-      autoresize
-    />
-    <v-chart
-      v-show="dataLoaded"
-      ref="chartOrdiniPayment"
-      class="chart"
-      :option="optionOrdiniPayment"
-      autoresize
-    />
-    <v-chart
-      v-show="dataLoaded"
-      ref="chartPizzeZone"
-      class="chart"
-      :option="optionPizzeZone"
-      autoresize
-    />
-    <v-chart
-      v-show="dataLoaded"
-      ref="chartPizzeTime"
-      class="chart"
-      :option="optionPizzeTime"
-      autoresize
-    />
+  <div class="chart_container" id="scrollbar1">
+    <div class="chart_card">
+      <div class="chart_btn">
+        <button>TOT</button>
+        <button>MESE</button>
+        <button>SETTIMANA</button>
+        <button>OGGI</button>
+      </div>
+      <v-chart
+        v-show="dataLoaded"
+        ref="chartOrdiniZone"
+        class="chart"
+        :option="optionOrdiniZone"
+        autoresize
+      />
+    </div>
+    <div class="chart_card">
+      <div class="chart_btn">
+        <button>TOT</button>
+        <button>MESE</button>
+        <button>SETTIMANA</button>
+        <button>OGGI</button>
+      </div>
+      <v-chart
+        v-show="dataLoaded"
+        ref="chartOrdiniPayment"
+        class="chart"
+        :option="optionOrdiniPayment"
+        autoresize
+      />
+    </div>
+    <div class="chart_card">
+      <div class="chart_btn">
+        <button>TOT</button>
+        <button>MESE</button>
+        <button>SETTIMANA</button>
+        <button>OGGI</button>
+      </div>
+      <v-chart
+        v-show="dataLoaded"
+        ref="chartPizzeZone"
+        class="chart"
+        :option="optionPizzeZone"
+        autoresize
+      />
+    </div>
+    <div class="chart_card">
+      <div class="chart_btn">
+        <button>TOT</button>
+        <button>MESE</button>
+        <button>SETTIMANA</button>
+        <button>OGGI</button>
+      </div>
+      <v-chart
+        v-show="dataLoaded"
+        ref="chartPizzeTime"
+        class="chart"
+        :option="optionPizzeTime"
+        autoresize
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import { ref, reactive, nextTick, provide, defineComponent } from 'vue'
+import { ref, nextTick, provide, defineComponent } from 'vue'
 import { CanvasRenderer } from 'echarts/renderers'
 import { PieChart } from 'echarts/charts'
 import {
@@ -71,147 +103,46 @@ export default defineComponent({
     return {
       optionOrdiniZone: {
         title: {
-          text: 'Ordini Per Zone',
+          text: 'Ordini per Zone',
           left: 'center',
-          top: '20%',
-        },
-        tooltip: {
-          tooltip: {
-            trigger: 'item',
-            formatter: '{a} <br/>{b} : {c} ({d}%)',
-            backgroundColor: 'rgba(50,50,50,0.7)',
-            borderColor: '#212121',
-            borderWidth: 1,
-            textStyle: {
-              color: '#212121',
-            },
-          },
-        },
-        legend: {
-          orient: 'horizontal',
-          top: '95%',
-          data: [], // Initialize as empty array
+          top: '7%',
           textStyle: {
-            color: '#f5f5f5',
-            fontSize: 12,
-          },
-          icon: 'circle',
-          itemWidth: 20,
-          itemHeight: 20,
-          backgroundColor: 'rgba(40,76,84,0.7)',
-          borderColor: '#ccc',
-          borderWidth: 2,
-          padding: 10, // [top, right, bottom, left]
-        },
-        series: [
-          {
-            name: 'Traffic Sources',
-            type: 'pie',
-            radius: '55%',
-            center: ['50%', '60%'],
-            data: [], // Initialize as empty array
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)',
-              },
-            },
-          },
-        ],
-      },
-      optionPizzeZone: {
-        title: {
-          text: 'Pizze per Zone',
-          left: 'center',
-          top: '20%',
-        },
-        tooltip: {
-          tooltip: {
-            trigger: 'item',
-            formatter: '{a} <br/>{b} : {c} ({d}%)',
-            backgroundColor: 'rgba(50,50,50,0.7)',
-            borderColor: '#212121',
-            borderWidth: 1,
-            textStyle: {
-              color: '#212121',
-            },
-          },
-        },
-        legend: {
-          orient: 'horizontal',
-          top: '95%',
-          data: [],
-          textStyle: {
-            color: '#f5f5f5',
-            fontSize: 12,
-          },
-          icon: 'circle',
-          itemWidth: 20,
-          itemHeight: 20,
-          backgroundColor: 'rgba(0,0,0,0.5)',
-          borderColor: '#ccc',
-          borderWidth: 2,
-          padding: 10, // [top, right, bottom, left]
-        },
-        series: [
-          {
-            name: 'Pizzas Sold',
-            type: 'pie',
-            radius: '55%',
-            center: ['50%', '60%'],
-            data: [],
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)',
-              },
-            },
-          },
-        ],
-      },
-      optionPizzeTime: {
-        title: {
-          text: 'Pizze per Time',
-          left: 'center',
-          top: '20%',
-          textStyle: {
-            fontSize: 18,
+            fontSize: 35,
           },
         },
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b} : {c} ({d}%)',
-          backgroundColor: 'rgba(50,50,50,0.7)',
+          backgroundColor: '#212121',
           borderColor: '#212121',
           borderWidth: 1,
           textStyle: {
-            color: '#212121',
+            color: '#fb8c00',
           },
         },
         legend: {
           orient: 'horizontal',
-          top: '95%',
+          bottom: '3%',
           data: [],
           textStyle: {
-            color: '#f5f5f5',
-            fontSize: 14,
+            color: '#fb8c00',
+            fontSize: 12,
           },
           icon: 'circle',
-          itemWidth: 20,
-          itemHeight: 20,
-          backgroundColor: 'rgba(0,0,0,0.5)',
-          borderColor: '#ccc',
-          borderWidth: 2,
+          itemWidth: 30,
+          itemHeight: 30,
+          backgroundColor: '#212121',
+          borderRadius: 5,
+          borderColor: '#212121',
+          borderWidth: 1,
           padding: 10, // [top, right, bottom, left]
         },
         series: [
           {
-            name: 'Traffic Sources',
+            name: 'Ordini Per Zone',
             type: 'pie',
-            radius: '55%',
-            center: ['50%', '60%'],
+            radius: '75%',
+            center: ['50%', '50%'],
             data: [],
             emphasis: {
               itemStyle: {
@@ -223,16 +154,162 @@ export default defineComponent({
             itemStyle: {
               color: function (params) {
                 const colorList = [
-                  '#c23531',
-                  '#2f4554',
-                  '#61a0a8',
-                  '#d48265',
-                  '#91c7ae',
+                  '#ffd700',
+                  '#133337',
+                  '#990000',
+                  '#0a75ad',
+                  '#065535',
+                  '#008080',
+                  '#ff7f50',
+                  '#c6e2ff',
+                  '#66cdaa',
                 ]
                 return colorList[params.dataIndex % colorList.length]
               },
-              borderColor: '#fff',
-              borderWidth: 2,
+              borderColor: '#212121',
+              borderWidth: 1.5,
+            },
+          },
+        ],
+      },
+      optionPizzeZone: {
+        title: {
+          text: 'Pizze per Zone',
+          left: 'center',
+          top: '7%',
+          textStyle: {
+            fontSize: 35,
+          },
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: '{a} <br/>{b} : {c} ({d}%)',
+          backgroundColor: '#212121',
+          borderColor: '#212121',
+          borderWidth: 1,
+          textStyle: {
+            color: '#fb8c00',
+          },
+        },
+        legend: {
+          orient: 'horizontal',
+          bottom: '3%',
+          data: [],
+          textStyle: {
+            color: '#fb8c00',
+            fontSize: 12,
+          },
+          icon: 'circle',
+          itemWidth: 30,
+          itemHeight: 30,
+          backgroundColor: '#212121',
+          borderRadius: 5,
+          borderColor: '#212121',
+          borderWidth: 1,
+          padding: 10, // [top, right, bottom, left]
+        },
+        series: [
+          {
+            name: 'Pizze per Zone ',
+            type: 'pie',
+            radius: '75%',
+            center: ['50%', '50%'],
+            data: [],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
+              },
+            },
+            itemStyle: {
+              color: function (params) {
+                const colorList = [
+                  '#ffd700',
+                  '#133337',
+                  '#990000',
+                  '#0a75ad',
+                  '#065535',
+                  '#008080',
+                  '#ff7f50',
+                  '#c6e2ff',
+                  '#66cdaa',
+                ]
+                return colorList[params.dataIndex % colorList.length]
+              },
+              borderColor: '#212121',
+              borderWidth: 1.5,
+            },
+          },
+        ],
+      },
+      optionPizzeTime: {
+        title: {
+          text: 'Pizze per Time',
+          left: 'center',
+          top: '7%',
+          textStyle: {
+            fontSize: 35,
+          },
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: '{a} <br/>{b} : {c} ({d}%)',
+          backgroundColor: '#212121',
+          borderColor: '#212121',
+          borderWidth: 1,
+          textStyle: {
+            color: '#fb8c00',
+          },
+        },
+        legend: {
+          orient: 'horizontal',
+          bottom: '3%',
+          data: [],
+          textStyle: {
+            color: '#fb8c00',
+            fontSize: 12,
+          },
+          icon: 'circle',
+          itemWidth: 30,
+          itemHeight: 30,
+          backgroundColor: '#212121',
+          borderColor: '#212121',
+          borderRadius: 5,
+          borderWidth: 1,
+          padding: 10, // [top, right, bottom, left]
+        },
+        series: [
+          {
+            name: 'Pizze Per Orari',
+            type: 'pie',
+            radius: '75%',
+            center: ['50%', '50%'],
+            data: [],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
+              },
+            },
+            itemStyle: {
+              color: function (params) {
+                const colorList = [
+                  '#ffd700',
+                  '#133337',
+                  '#990000',
+                  '#0a75ad',
+                  '#065535',
+                  '#008080',
+                  '#ff7f50',
+                  '#c6e2ff',
+                  '#66cdaa',
+                ]
+                return colorList[params.dataIndex % colorList.length]
+              },
+              borderColor: '#212121',
+              borderWidth: 1.5,
             },
           },
         ],
@@ -240,51 +317,71 @@ export default defineComponent({
       optionOrdiniPayment: {
         // New option object
         title: {
-          text: 'Ordini Per Metodo Pagamento',
+          text: 'Ordini per Pagamento',
           left: 'center',
-          top: '20%',
+          top: '7%',
+          textStyle: {
+            fontSize: 25,
+          },
         },
         tooltip: {
-          tooltip: {
-            trigger: 'item',
-            formatter: '{a} <br/>{b} : {c} ({d}%)',
-            backgroundColor: 'rgba(50,50,50,0.7)',
-            borderColor: '#212121',
-            borderWidth: 1,
-            textStyle: {
-              color: '#212121',
-            },
+          trigger: 'item',
+          formatter: '{a} <br/>{b} : {c} ({d}%)',
+          backgroundColor: '#212121',
+          borderColor: '#212121',
+          borderWidth: 1,
+          textStyle: {
+            color: '#fb8c00',
           },
         },
         legend: {
           orient: 'horizontal',
-          top: '95%',
-          data: [], // Initialize as empty array
+          bottom: '3%',
+          data: [],
           textStyle: {
-            color: '#f5f5f5',
+            color: '#fb8c00',
             fontSize: 12,
           },
           icon: 'circle',
-          itemWidth: 20,
-          itemHeight: 20,
-          backgroundColor: 'rgba(40,76,84,0.7)',
-          borderColor: '#ccc',
-          borderWidth: 2,
+          itemWidth: 30,
+          itemHeight: 30,
+          backgroundColor: '#212121',
+          borderColor: '#212121',
+          borderWidth: 1,
+          borderRadius: 5,
           padding: 10, // [top, right, bottom, left]
         },
         series: [
           {
-            name: 'Traffic Sources',
+            name: 'Ordini Per metodo Pagamento',
             type: 'pie',
-            radius: '55%',
-            center: ['50%', '60%'],
-            data: [], // Initialize as empty array
+            radius: '75%',
+            center: ['50%', '50%'],
+            data: [],
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
                 shadowColor: 'rgba(0, 0, 0, 0.5)',
               },
+            },
+            itemStyle: {
+              color: function (params) {
+                const colorList = [
+                  '#ffd700',
+                  '#133337',
+                  '#990000',
+                  '#0a75ad',
+                  '#065535',
+                  '#008080',
+                  '#ff7f50',
+                  '#c6e2ff',
+                  '#66cdaa',
+                ]
+                return colorList[params.dataIndex % colorList.length]
+              },
+              borderColor: '#212121',
+              borderWidth: 1.5,
             },
           },
         ],
@@ -455,15 +552,82 @@ export default defineComponent({
 
 <style scoped>
 .chart_container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 1rem;
+  width: 100%;
+  max-width: 100vw;
+  overflow: scroll;
+  overflow-x: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 0.5rem;
+  column-gap: 0.5rem;
 }
 
 .chart {
-  height: 100vh;
-  width: 90vw;
+  width: 95%;
+  overflow-x: hidden;
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.chart_card {
+  background-color: #f0f1fa;
+  min-height: 130vh;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 0.5rem;
+  position: relative;
+}
+
+.chart_btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: row;
+  background-color: var(--shadow);
+  padding: 0.3rem;
+  border-radius: 5px;
+}
+
+.chart_btn button {
+  width: 100%;
+  height: 5%;
+  position: sticky;
+  top: 0;
+  border: 3px solid var(--link_light);
+  border-radius: 5px;
+  margin: 0.1rem;
+}
+
+button {
+  background-color: var(--link);
+  color: var(--link_light);
+  text-align: center;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+button:hover {
+  color: var(--link);
+  background-color: var(--link_light);
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 430px) {
+  .chart_container {
+    grid-template-columns: 1fr;
+  }
+
+  .chart_card {
+    max-width: 90vw;
+    padding: 0;
+    min-height: 100vh;
+    margin-bottom: 3rem;
+  }
+
+  .chart {
+    overflow-x: hidden;
+    padding: 0.1rem;
+    width: 90vw;
+  }
 }
 </style>

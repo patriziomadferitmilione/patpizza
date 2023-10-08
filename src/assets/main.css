@@ -20,29 +20,14 @@
 *,
 *:before,
 *:after {
-  box-sizing: border-box;
   font-family: 'Montserrat', sans-serif;
 }
 
 html {
-  background-color: #212121;
-  box-sizing: border-box;
   font-family: 'Montserrat', sans-serif;
 }
 
-/* body::-webkit-scrollbar {
-  display: none;
-}
-html::-webkit-scrollbar {
-  display: none;
-}
-*::-webkit-scrollbar {
-  display: none;
-} */
-
 body {
-  overflow-y: scroll;
-  overflow-x: scroll;
   margin: 0rem;
   padding: 0rem;
 }
@@ -98,10 +83,22 @@ button {
 
 #app {
   /* background: url("https://raw.githubusercontent.com/patriziomadferitmilione/media/main/portfolio/background.png") center/cover fixed no-repeat; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: #fac898;
-  min-height: 100vh;
-  min-width: 100vw;
+}
+
+#scrollbar1::-webkit-scrollbar {
+  width: 12px;
+}
+
+#scrollbar1::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background-color: var(--shadow);
+  border: 2px solid var(--shadow);
+}
+
+#scrollbar1::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  background-color: var(--link);
 }

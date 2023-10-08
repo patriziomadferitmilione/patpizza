@@ -5,13 +5,10 @@ import axios from 'axios'
 import PizzaView from './PizzaView.vue'
 import DashboardView from './DashboardView.vue'
 
-import DashboardGenerale from './DashboardGenerale.vue'
-
 export default {
   components: {
     PizzaView,
     DashboardView,
-    DashboardGenerale,
   },
   data() {
     const OrdineID = ref('')
@@ -39,10 +36,6 @@ export default {
     watch(selectedOption, (newOption) => {
       this.loadJsonData(newOption)
     })
-
-    // const timeClass = (slot) => {
-    //   return (counts.value[slot] || 0) < 2 ? 'time_green' : 'time_red'
-    // }
 
     const getOrdiniSlot = () => {
       axios
@@ -77,7 +70,6 @@ export default {
       searchText,
       selectedOption,
       numeroCivico,
-      // timeClass,
       hours,
       minutes,
       getOrdiniSlot,
@@ -177,7 +169,6 @@ export default {
         console.error('Error loading JSON data:', error)
       }
     },
-    // getOrdiniSlot() {
     //   axios
     //     .get('https://patpizza-be.onrender.com/ordine/getOrdiniToday', {
     //       headers: {
@@ -390,6 +381,8 @@ main {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  min-height: 100vh;
+  min-width: 99vw;
 }
 
 .form {
@@ -516,7 +509,7 @@ button:hover {
 }
 
 /* Updated media queries */
-@media only screen and (max-width: 430px) {
+@media only screen and (max-width: 370px) {
   main,
   table,
   .form,
