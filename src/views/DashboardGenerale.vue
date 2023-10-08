@@ -570,7 +570,7 @@ export default defineComponent({
 }
 
 .chart_card {
-  background-color: #f0f1fa;
+  background-color: #e9c4a1;
   min-height: 130vh;
   border-radius: 5px;
   padding: 1rem;
