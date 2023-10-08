@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-  name: 'newItemView',
+  name: 'NewItemView',
 }
 </script>
 <style scoped></style>
