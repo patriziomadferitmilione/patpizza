@@ -212,8 +212,10 @@ export default {
       return 'time_red'
     },
     newOrdineHandler(time) {
-      this.NEW_ORDINE_OBJECT.orarioConsegna = time
-      this.newOrdine(time)
+      const [hour, minute] = time.split(':')
+      const formattedTime = `${hour}:${String(minute).padStart(2, '0')}`
+      this.NEW_ORDINE_OBJECT.orarioConsegna = formattedTime
+      this.newOrdine(formattedTime)
     },
   },
   computed: {
