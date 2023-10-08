@@ -16,9 +16,9 @@ export default defineComponent({})
       <router-link to="/graphs" class="bottom-bar-item"
         ><i class="mdi mdi-chart-line"></i
       ></router-link>
-      <router-link to="/newItem" class="bottom-bar-item"
+      <!-- <router-link to="/newItem" class="bottom-bar-item"
         ><i class="mdi mdi-plus-box"></i
-      ></router-link>
+      ></router-link> -->
     </div>
   </div>
 </template>
