@@ -24,7 +24,7 @@ export default {
     const showMenu = ref(true)
     const showPizze = ref(true)
     const showIngredienti = ref(false)
-    const showOrdine = ref(false)
+    const showOrdine = ref(true)
 
     return {
       pizze,
@@ -375,7 +375,7 @@ export default {
     <!-- Ingredienti Inizio -->
     <div class="ingredientiSection" v-if="this.showIngredienti === true">
       <!-- Ingredienti Popolari -->
-      <div>
+      <div class="ingr">
         <h1>Più Usati</h1>
         <div class="ingredientiContainer">
           <div
@@ -398,7 +398,7 @@ export default {
       </div>
 
       <!-- Ingredienti Carne -->
-      <div>
+      <div class="ingr">
         <h1>Carne e Pesce</h1>
 
         <div class="ingredientiContainer">
@@ -422,7 +422,7 @@ export default {
       </div>
 
       <!-- Ingredienti Formaggi -->
-      <div>
+      <div class="ingr">
         <h1>Latticini</h1>
 
         <div class="ingredientiContainer">
@@ -446,7 +446,7 @@ export default {
       </div>
 
       <!-- Ingredienti Verdura -->
-      <div>
+      <div class="ingr">
         <h1>Frutta e Verdura</h1>
 
         <div class="ingredientiContainer">
@@ -470,7 +470,7 @@ export default {
       </div>
 
       <!-- Ingredienti Creme -->
-      <div>
+      <div class="ingr">
         <h1>Creme</h1>
 
         <div class="ingredientiContainer">
@@ -494,7 +494,7 @@ export default {
       </div>
 
       <!-- Ingredienti Vari -->
-      <div>
+      <div class="ingr">
         <h1>Vari</h1>
 
         <div class="ingredientiContainer">
@@ -525,11 +525,16 @@ export default {
 
 <style scoped>
 main {
-  padding: 2rem;
+  padding-top: 100rem;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
+}
+
+.ingr {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
 }
 
 table {
@@ -570,6 +575,8 @@ li {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  height: fit-content;
+  padding-top: 190rem;
 }
 
 .ingredientiSection h1 {
@@ -651,7 +658,7 @@ li {
 
 .menuContainer {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
   border: 3px solid var(--link);
   padding: 1rem;
@@ -680,28 +687,16 @@ li {
     padding: 1rem;
   }
 
-  .ingredientiContainer,
   .menuContainer {
     grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-    margin-right: 30px;
-    max-height: 400px;
-    overflow: scroll;
   }
 
   .ingrediente {
-    width: 90%;
-    margin: 0.5rem;
-  }
-
-  .btn,
-  .menuContainer button {
-    width: 100%;
+    width: 85%;
+    margin: 0.2rem;
   }
 
   .ingredientiContainer {
-    padding: 0.5rem;
-    grid-template-columns: 1fr 1fr;
     border-radius: 5px;
     height: 500px;
     max-width: 100%;
@@ -715,7 +710,6 @@ li {
 
   .table_ordine {
     overflow-x: scroll;
-    min-width: 200vw;
   }
 }
 </style>

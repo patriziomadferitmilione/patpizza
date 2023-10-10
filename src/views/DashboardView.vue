@@ -82,16 +82,17 @@ export default {
 
 <style scoped>
 .ordineContainer {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  overflow-y: scroll;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: scroll;
+  overflow: scroll;
 }
 
 .ordine {
   border: 3px solid var(--link_light);
-  width: 200px;
-  height: 250px;
+  width: 3rem;
+  height: 5rem;
   padding: 0.5rem;
   border-radius: 5px;
   background: radial-gradient(circle farthest-side, #fceabb, #f8b500);
@@ -102,38 +103,14 @@ export default {
   text-align: center;
 }
 
-.zona,
-.indirizzo {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.zona {
-  color: var(--blue);
-}
-
-.orario {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: var(--link_light);
-}
-
-.pagamento {
-  font-size: 1rem;
-}
-
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 430px) {
   .ordineContainer {
     overflow-x: scroll;
-    width: 100vw;
-    grid-template-columns: 1fr;
-    gap: 0.2rem;
   }
 
   .ordine {
-    overflow-x: scroll;
-    width: 15rem;
-    height: 20rem;
+    height: 200px;
+    width: 130px;
   }
 }
 </style>

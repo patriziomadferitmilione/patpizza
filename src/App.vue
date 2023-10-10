@@ -41,7 +41,9 @@ export default defineComponent({})
   height: 90vh;
   max-height: 90vh;
   top: 0;
-  overflow: hidden;
+  overflow: scroll;
+  padding: 0.5rem;
+  padding-top: 5rem;
 }
 
 .bottom-bar {

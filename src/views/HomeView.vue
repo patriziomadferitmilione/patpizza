@@ -49,6 +49,7 @@ export default {
           const countsData = response.data.reduce((acc, order) => {
             const slot = order.orarioConsegna
             acc[slot] = (acc[slot] || 0) + 1
+            console.log(acc)
             return acc
           }, {})
 
@@ -232,24 +233,26 @@ export default {
   mounted() {
     this.labelColors()
     this.getOrdiniSlot()
+    this.showOrari = true
   },
 }
 </script>
 
 <template>
   <main>
-    <DashboardGenerale />
+    <div class="dashboard_clump">
+      <div class="dashboard" v-if="this.showDashboard === true">
+        <h1 class="title">PROSSIMI ORDINI</h1>
+        <DashboardView />
+      </div>
 
-    <div class="dashboard" v-if="this.showDashboard === true">
-      <h1 class="title">PROSSIMI ORDINI</h1>
-      <DashboardView />
-    </div>
-    <h1 class="title">Riepilogo</h1>
-    <div class="dashboardCount">
-      <div class="cards">
-        <div v-for="(count, timeSlot) in counts" :key="timeSlot" class="card">
-          <div class="card-time">{{ timeSlot }}</div>
-          <div class="card-count">{{ count }}</div>
+      <div class="dashboardCount">
+        <h1 class="title">Riepilogo</h1>
+        <div class="cards">
+          <div v-for="(count, timeSlot) in counts" :key="timeSlot" class="card">
+            <div class="card-time">{{ timeSlot }}</div>
+            <div class="card-count">{{ count }}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -379,12 +382,22 @@ export default {
 
 <style scoped>
 main {
+  padding-top: 15rem;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  min-height: 100vh;
-  min-width: 99vw;
+}
+
+.dashboard {
+  overflow-x: scroll;
+}
+
+.dashboard_clump {
+  display: flex;
+  flex-direction: column;
+  overflow-x: scroll;
+  overflow: scroll;
 }
 
 .form {
@@ -411,8 +424,8 @@ main {
 }
 
 button {
-  width: 200px;
-  height: 70px;
+  width: 230px;
+  height: 120px;
   font-size: 3rem;
   font-weight: bold;
   border-radius: 5px;
@@ -426,22 +439,12 @@ button:hover {
 .form_btn {
   background-color: var(--link_light);
   color: var(--link);
-  margin: 1rem 0;
   border-radius: 5px;
-  border: none;
-  width: fit-content;
 }
 
 .form_btn:hover {
   background-color: var(--link);
   color: var(--red);
-}
-
-.pizza,
-.dashboard {
-  margin-top: 1rem;
-  padding: 1rem;
-  width: 100%;
 }
 
 .title {
@@ -450,7 +453,6 @@ button:hover {
   background-color: var(--link);
   padding: 0.5rem;
   border-radius: 5px;
-  margin: 1rem 0;
   text-align: center;
 }
 
@@ -471,11 +473,6 @@ button:hover {
   background-color: var(--red);
   color: var(--white);
   box-shadow: 0px 0px 20px 0px var(--red);
-}
-
-.dashboardCount {
-  display: flex;
-  justify-content: center;
 }
 
 .cards {
@@ -511,15 +508,7 @@ button:hover {
 }
 
 /* Updated media queries */
-@media only screen and (max-width: 370px) {
-  main,
-  table,
-  .form,
-  .orariContainer {
-    overflow-x: scroll;
-    width: 100vw;
-  }
-
+@media only screen and (max-width: 430px) {
   .orariContainer td button {
     width: 5.5rem;
   }
@@ -532,6 +521,7 @@ button:hover {
     width: auto;
     height: auto;
     font-size: 2rem;
+    margin-bottom: 1rem;
   }
 
   .title {
