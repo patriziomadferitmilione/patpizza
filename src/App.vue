@@ -1,27 +1,19 @@
-<script>
-import { defineComponent } from 'vue'
-
-export default defineComponent({})
-</script>
-
 <template>
   <div class="main">
-    <div class="app">
-      <router-view></router-view>
-    </div>
-    <div class="bottom-bar">
-      <router-link to="/" class="bottom-bar-item"
-        ><i class="mdi mdi-file-document-plus"></i
-      ></router-link>
-      <router-link to="/graphs" class="bottom-bar-item"
-        ><i class="mdi mdi-chart-line"></i
-      ></router-link>
-      <!-- <router-link to="/newItem" class="bottom-bar-item"
-        ><i class="mdi mdi-plus-box"></i
-      ></router-link> -->
-    </div>
+    <DashboardGenerale />
   </div>
 </template>
+
+<script>
+import { defineComponent } from 'vue'
+import DashboardGenerale from './views/DashboardGenerale.vue'
+
+export default defineComponent({
+  components: {
+    DashboardGenerale,
+  },
+})
+</script>
 
 <style scoped>
 .main {

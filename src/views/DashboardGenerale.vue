@@ -89,14 +89,14 @@ export default defineComponent({
       LegendComponent,
     ])
 
-    const dataLoaded = ref(false) // New reactive variable
+    const dataLoaded = ref(false)
 
     return {
       chartOrdiniZone: ref(null),
       chartPizzeZone: ref(null),
       chartPizzeTime: ref(null),
       chartOrdiniPayment: ref(null),
-      dataLoaded, // Expose it so it can be used in the template
+      dataLoaded,
     }
   },
   data() {
@@ -556,10 +556,8 @@ export default defineComponent({
   max-width: 100vw;
   overflow: scroll;
   overflow-x: hidden;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  row-gap: 0.5rem;
-  column-gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .chart {
@@ -571,7 +569,7 @@ export default defineComponent({
 
 .chart_card {
   background-color: #e9c4a1;
-  min-height: 130vh;
+  height: 120vh;
   border-radius: 5px;
   padding: 1rem;
   margin: 0.5rem;
