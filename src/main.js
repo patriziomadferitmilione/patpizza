@@ -2,22 +2,7 @@ import './assets/main.css'
 import '@mdi/font/css/materialdesignicons.min.css'
 import { createApp } from 'vue'
 import App from './App.vue'
-import { createRouter, createWebHistory } from 'vue-router'
-
-import DashboardGenerale from './views/DashboardGenerale.vue'
-import HomeView from './views/HomeView.vue'
-
-// Define application routes
-const routes = [{ path: '/', component: DashboardGenerale }]
-
-// Initialize Vue router with history mode and predefined routes
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-})
 
 const app = createApp(App)
-
-app.use(router)
 
 app.mount('#app')
